@@ -10,7 +10,7 @@ namespace XNVSU0_HFT_202231.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Employee> Employees { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
         public Job()
         {
         }

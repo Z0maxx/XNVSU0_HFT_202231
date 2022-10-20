@@ -10,7 +10,7 @@ namespace XNVSU0_HFT_202231.Models
     {
         public double MinHours { get; set; }
         public double MaxHours { get; set; }
-        public List<HourlyWageOrder> Orders { get; set; }
+        public virtual ICollection<HourlyWageOrder> Orders { get; set; }
         public HourlyWageEmployee()
         {
         }
