@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace XNVSU0_HFT_202231.Models
 {
-    public class Employee
+    public abstract class Employee
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -24,10 +24,10 @@ namespace XNVSU0_HFT_202231.Models
         [StringLength(50)]
         public string EmailAddress { get; set; }
         public string PhoneNumber { get; set; }
-        public Employee()
+        protected Employee()
         {
         }
-        public Employee(int id, string firstName, string lastName, int jobId, double wage, DateTime hireDate, string emailAddress, string phoneNumber)
+        protected Employee(int id, string firstName, string lastName, int jobId, double wage, DateTime hireDate, string emailAddress, string phoneNumber)
         {
             Id = id;
             FirstName = firstName;

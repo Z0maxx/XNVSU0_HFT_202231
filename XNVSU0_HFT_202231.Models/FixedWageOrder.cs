@@ -4,24 +4,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace XNVSU0_HFT_202231.Models
 {
-    public class FixedWageOrder
+    public class FixedWageOrder : Order
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
         [Required]
-        public DateTime OrderDate { get; set; }
-        [Required]
-        public int EmployeeId { get; set; }
-        public virtual HourlyWageEmployee Employee { get; set; }
+        public int EventTypeId { get; set; }
+        public virtual EventType EventType { get; set; }
         public FixedWageOrder()
         {
         }
-        public FixedWageOrder(int id, DateTime orderDate, int employeeId)
+        public FixedWageOrder(int id, DateTime orderDate, int employeeId, int eventTypeId)
+            :base(id, orderDate, employeeId)
         {
-            Id = id;
-            OrderDate = orderDate;
-            EmployeeId = employeeId;
+            EventTypeId = eventTypeId;
         }
     }
 }
