@@ -10,11 +10,11 @@ namespace XNVSU0_HFT_202231.Repository
         }
         public override EventType Read(int id)
         {
-            return ctx.EventTypes.FirstOrDefault(e => e.Id == id);
+            return ctx.EventTypes.FirstOrDefault(eventType => eventType.Id == id);
         }
         public override void Update(EventType item)
         {
-            var old = ctx.HourlyWageEmployees.FirstOrDefault(car => car.Id == item.Id);
+            var old = ctx.EventTypes.FirstOrDefault(eventType => eventType.Id == item.Id);
             var properties = item.GetType().GetProperties();
             foreach (var prop in properties)
             {

@@ -10,11 +10,11 @@ namespace XNVSU0_HFT_202231.Repository
         }
         public override FixedWageEmployee Read(int id)
         {
-            return ctx.FixedWageEmployees.FirstOrDefault(e => e.Id == id);
+            return ctx.FixedWageEmployees.FirstOrDefault(emp => emp.Id == id);
         }
         public override void Update(FixedWageEmployee item)
         {
-            var old = ctx.FixedWageEmployees.FirstOrDefault(car => car.Id == item.Id);
+            var old = ctx.FixedWageEmployees.FirstOrDefault(emp => emp.Id == item.Id);
             var properties = item.GetType().GetProperties();
             foreach (var prop in properties)
             {
