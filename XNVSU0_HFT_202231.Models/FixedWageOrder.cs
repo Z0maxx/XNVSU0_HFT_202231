@@ -8,6 +8,7 @@ namespace XNVSU0_HFT_202231.Models
     {
         [Required]
         public int EventTypeId { get; set; }
+        public virtual FixedWageEmployee Employee { get; set; }
         public virtual EventType EventType { get; set; }
         public FixedWageOrder()
         {

@@ -12,7 +12,7 @@ namespace XNVSU0_HFT_202231.Models
         [Required]
         [StringLength(30)]
         public string Name { get; set; }
-        public virtual ICollection<FixedWageEmployee> Employees { get; set; }
+        public virtual ICollection<FixedWageOrder> Orders { get; set; }
         public EventType()
         {
         }

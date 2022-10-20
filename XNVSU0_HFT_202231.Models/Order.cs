@@ -13,7 +13,6 @@ namespace XNVSU0_HFT_202231.Models
         public DateTime OrderDate { get; set; }
         [Required]
         public int EmployeeId { get; set; }
-        public virtual Employee Employee { get; set; }
         protected Order()
         {
         }

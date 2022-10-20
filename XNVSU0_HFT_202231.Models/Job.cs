@@ -12,7 +12,8 @@ namespace XNVSU0_HFT_202231.Models
         [Required]
         [StringLength(20)]
         public string Name { get; set; }
-        public virtual ICollection<Employee> Employees { get; set; }
+        public virtual ICollection<FixedWageEmployee> FixedWageEmployees { get; set; }
+        public virtual ICollection<HourlyWageEmployee> HourlyWageEmployees { get; set; }
         public Job()
         {
         }

@@ -8,6 +8,7 @@ namespace XNVSU0_HFT_202231.Models
     {
         [Range(1, 12)]
         public double Hours { get; set; }
+        public virtual HourlyWageEmployee Employee { get; set; }
         public HourlyWageOrder()
         {
         }
