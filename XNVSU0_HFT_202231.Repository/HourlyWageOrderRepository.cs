@@ -8,7 +8,7 @@ namespace XNVSU0_HFT_202231.Repository
         public HourlyWageOrderRespository(EmployeeDbContext ctx) : base(ctx)
         {
         }
-        public override HourlyWageOrder Read(int id)
+        public override HourlyWageOrder Read(int? id)
         {
             return ctx.HourlyWageOrders.FirstOrDefault(order => order.Id == id);
         }

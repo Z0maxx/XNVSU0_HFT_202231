@@ -8,7 +8,7 @@ namespace XNVSU0_HFT_202231.Models
     {
         [Required(ErrorMessage = "Number of hours is required")]
         [Range(1, 12, ErrorMessage = "Number of hours must be between 1 and 12")]
-        public double Hours { get; set; }
+        public double? Hours { get; set; }
         public virtual HourlyWageEmployee Employee { get; set; }
         public HourlyWageOrder()
         {

@@ -8,7 +8,7 @@ namespace XNVSU0_HFT_202231.Repository
         public EventTypeRespository(EmployeeDbContext ctx) : base(ctx)
         {
         }
-        public override EventType Read(int id)
+        public override EventType Read(int? id)
         {
             return ctx.EventTypes.FirstOrDefault(eventType => eventType.Id == id);
         }

@@ -7,12 +7,14 @@ namespace XNVSU0_HFT_202231.Models
     public abstract class Order
     {
         [Key]
+        [Required(ErrorMessage = "Order id is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Order id must be greater than 0")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int? Id { get; set; }
         [Required(ErrorMessage = "Order date is required")]
-        public DateTime OrderDate { get; set; }
+        public DateTime? OrderDate { get; set; }
         [Required(ErrorMessage = "Order employee id is required")]
-        public int EmployeeId { get; set; }
+        public int? EmployeeId { get; set; }
         [Required(ErrorMessage = "Order first name is required")]
         [StringLength(30)]
         public string FirstName { get; set; }

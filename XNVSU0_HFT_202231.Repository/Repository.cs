@@ -19,9 +19,10 @@ namespace XNVSU0_HFT_202231.Repository
         public void Delete(int id)
         {
             ctx.Set<T>().Remove(Read(id));
+            ctx.SaveChanges();
         }
 
-        public abstract T Read(int id);
+        public abstract T Read(int? id);
 
         public IQueryable<T> ReadAll()
         {

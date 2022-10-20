@@ -8,7 +8,7 @@ namespace XNVSU0_HFT_202231.Repository
         public JobRespository(EmployeeDbContext ctx) : base(ctx)
         {
         }
-        public override Job Read(int id)
+        public override Job Read(int? id)
         {
             return ctx.Jobs.FirstOrDefault(job => job.Id == id);
         }

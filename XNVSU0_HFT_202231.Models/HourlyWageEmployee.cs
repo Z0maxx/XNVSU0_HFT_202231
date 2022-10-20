@@ -8,9 +8,9 @@ namespace XNVSU0_HFT_202231.Models
     public class HourlyWageEmployee : Employee
     {
         [Range(1, 10, ErrorMessage = "Minimum hours must be between 1 and 10")]
-        public double MinHours { get; set; }
+        public double? MinHours { get; set; }
         [Range(2, 12, ErrorMessage = "Maximumn hours must be between 2 and 12")]
-        public double MaxHours { get; set; }
+        public double? MaxHours { get; set; }
         [JsonIgnore]
         public virtual ICollection<HourlyWageOrder> Orders { get; set; }
         public HourlyWageEmployee()

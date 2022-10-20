@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace XNVSU0_HFT_202231.Models
 {
     public class FixedWageEmployee : Employee
     {
-        public double Hours { get; set; }
+        [Range(1, 12, ErrorMessage = "Employee work hours must be between 1 and 12")]
+        public double? Hours { get; set; }
         [JsonIgnore]
         public virtual ICollection<FixedWageOrder> Orders { get; set; }
         public FixedWageEmployee()
