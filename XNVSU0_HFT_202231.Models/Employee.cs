@@ -17,5 +17,16 @@ namespace XNVSU0_HFT_202231.Models
         public Employee()
         {
         }
+        public Employee(int id, string firstName, string lastName, int jobId, double wage, DateTime hireDate, string emailAddress, string phoneNumber)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            JobId = jobId;
+            Wage = wage;
+            HireDate = hireDate;
+            EmailAddress = emailAddress;
+            PhoneNumber = phoneNumber;
+        }
     }
 }
