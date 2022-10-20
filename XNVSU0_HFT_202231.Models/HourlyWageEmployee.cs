@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace XNVSU0_HFT_202231.Models
 {
     public class HourlyWageEmployee : Employee
     {
+        [Range(1, 10)]
         public double MinHours { get; set; }
+        [Range(2, 12)]
         public double MaxHours { get; set; }
         public virtual ICollection<HourlyWageOrder> Orders { get; set; }
         public HourlyWageEmployee()

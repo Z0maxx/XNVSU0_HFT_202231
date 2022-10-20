@@ -9,12 +9,19 @@ namespace XNVSU0_HFT_202231.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Required]
+        [StringLength(30)]
         public string FirstName { get; set; }
+        [Required]
+        [StringLength(30)]
         public string LastName { get; set; }
         public int JobId { get; set; }
         public virtual Job Job { get; set; }
+        [Range(1000, 99999)]
         public double Wage { get; set; }
+        [Required]
         public DateTime HireDate { get; set; }
+        [StringLength(50)]
         public string EmailAddress { get; set; }
         public string PhoneNumber { get; set; }
         public Employee()
