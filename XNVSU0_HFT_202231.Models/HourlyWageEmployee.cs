@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace XNVSU0_HFT_202231.Models
 {
@@ -10,6 +11,7 @@ namespace XNVSU0_HFT_202231.Models
         public double MinHours { get; set; }
         [Range(2, 12)]
         public double MaxHours { get; set; }
+        [JsonIgnore]
         public virtual ICollection<HourlyWageOrder> Orders { get; set; }
         public HourlyWageEmployee()
         {

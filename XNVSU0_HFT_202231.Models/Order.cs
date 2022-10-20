@@ -13,6 +13,16 @@ namespace XNVSU0_HFT_202231.Models
         public DateTime OrderDate { get; set; }
         [Required]
         public int EmployeeId { get; set; }
+        [Required]
+        [StringLength(30)]
+        public string FirstName { get; set; }
+        [Required]
+        [StringLength(30)]
+        public string LastName { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string EmailAddress { get; set; }
+        public string PhoneNumber { get; set; }
         protected Order()
         {
         }

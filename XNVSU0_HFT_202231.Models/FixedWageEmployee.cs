@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace XNVSU0_HFT_202231.Models
 {
     public class FixedWageEmployee : Employee
     {
         public double Hours { get; set; }
+        [JsonIgnore]
         public virtual ICollection<FixedWageOrder> Orders { get; set; }
         public FixedWageEmployee()
         {
