@@ -9,18 +9,18 @@ namespace XNVSU0_HFT_202231.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Order date is required")]
         public DateTime OrderDate { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Order employee id is required")]
         public int EmployeeId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Order first name is required")]
         [StringLength(30)]
         public string FirstName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Order last name is required")]
         [StringLength(30)]
         public string LastName { get; set; }
-        [Required]
-        [StringLength(50)]
+        [Required(ErrorMessage = "Order email address is required")]
+        [StringLength(50, MinimumLength = 10, ErrorMessage = "Order email address is required")]
         public string EmailAddress { get; set; }
         public string PhoneNumber { get; set; }
         protected Order()

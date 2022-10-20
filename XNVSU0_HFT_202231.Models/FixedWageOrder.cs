@@ -1,12 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace XNVSU0_HFT_202231.Models
 {
     public class FixedWageOrder : Order
     {
-        [Required]
+        [Required(ErrorMessage = "Event type id is required")]
         public int EventTypeId { get; set; }
         public virtual FixedWageEmployee Employee { get; set; }
         public virtual EventType EventType { get; set; }

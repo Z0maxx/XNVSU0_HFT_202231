@@ -9,19 +9,19 @@ namespace XNVSU0_HFT_202231.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required]
-        [StringLength(30)]
+        [Required(ErrorMessage = "Employee first name is required")]
+        [StringLength(30, MinimumLength = 2, ErrorMessage = "Employee first name must be between 2 and 30 characters")]
         public string FirstName { get; set; }
-        [Required]
-        [StringLength(30)]
+        [Required(ErrorMessage = "Employee last name is required")]
+        [StringLength(30, MinimumLength = 2, ErrorMessage = "Employee last name must be between 2 and 30 characters")]
         public string LastName { get; set; }
         public int JobId { get; set; }
         public virtual Job Job { get; set; }
-        [Range(1000, 99999)]
+        [Range(1000, 99999, ErrorMessage = "Employee wage must be between 1000 and 99999")]
         public double Wage { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Employee hire date is required")]
         public DateTime HireDate { get; set; }
-        [StringLength(50)]
+        [StringLength(50, MinimumLength = 10, ErrorMessage = "Employee email address must be between 10 and 50 characters")]
         public string EmailAddress { get; set; }
         public string PhoneNumber { get; set; }
         protected Employee()

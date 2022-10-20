@@ -10,8 +10,8 @@ namespace XNVSU0_HFT_202231.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required]
-        [StringLength(30)]
+        [Required(ErrorMessage = "Event type name is required")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Event type name must be between 3 and 30 characters")]
         public string Name { get; set; }
         [JsonIgnore]
         public virtual ICollection<FixedWageOrder> Orders { get; set; }
