@@ -17,5 +17,14 @@ namespace XNVSU0_HFT_202231.Models
         {
             EventTypeId = eventTypeId;
         }
+        public override bool Equals(object obj)
+        {
+            var other = obj as FixedWageOrder;
+            return OrderDate == other.OrderDate && FirstName == other.FirstName && LastName == other.LastName && EmailAddress == other.EmailAddress;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

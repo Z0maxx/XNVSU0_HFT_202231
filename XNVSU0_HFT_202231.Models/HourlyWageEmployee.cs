@@ -23,5 +23,14 @@ namespace XNVSU0_HFT_202231.Models
             MinHours = minHours;
             MaxHours = maxHours;
         }
+        public override bool Equals(object obj)
+        {
+            var other = obj as HourlyWageEmployee;
+            return FirstName == other.FirstName && LastName == other.LastName && PhoneNumber == other.PhoneNumber;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

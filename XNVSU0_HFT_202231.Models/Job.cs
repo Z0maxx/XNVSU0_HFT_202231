@@ -8,7 +8,6 @@ namespace XNVSU0_HFT_202231.Models
     public class Job
     {
         [Key]
-        [Required(ErrorMessage = "Id is required")]
         [Range(1, int.MaxValue, ErrorMessage = "Id must be greater than 0")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? Id { get; set; }
@@ -26,6 +25,15 @@ namespace XNVSU0_HFT_202231.Models
         {
             Id = id;
             Name = name;
+        }
+        public override bool Equals(object obj)
+        {
+            var other = obj as Job;
+            return Name == other.Name;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace XNVSU0_HFT_202231.Logic
         {
             if (repository.Read(item.Id) != null) throw new ArgumentException("Employee by this id already exists: " + item.Id);
             PropertyInfo[] propInfos = item.GetType().GetProperties();
-            string[] propOrder = {"Id", "FirstName", "LastName", "Wage", "HireDate", "EmailAddress", "Hours" };
+            string[] propOrder = { "Id", "FirstName", "LastName", "Wage", "HireDate", "EmailAddress", "Hours", "PhoneNumber" };
             foreach (var prop in propOrder)
             {
                 var propInfo = propInfos.First(propInfo => propInfo.Name == prop);

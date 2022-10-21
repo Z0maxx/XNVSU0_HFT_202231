@@ -25,8 +25,13 @@ namespace XNVSU0_HFT_202231.Logic
                 var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
                 Validator.ValidateValue(propInfo.GetValue(item), new ValidationContext(item), attributes);
             }
-            if (item.Hours < item.Employee.MinHours || item.Hours > item.Employee.MaxHours) throw new ArgumentException($"Hours must be between {item.Employee.MinHours} and {item.Employee.MaxHours}");
             repository.Create(item);
+            if (item.Employee == null || item.Id == null) item = repository.ReadAll().Where(order => order.Equals(item)).First();
+            if (item.Hours < item.Employee.MinHours || item.Hours > item.Employee.MaxHours)
+            {
+                Delete((int)item.Id);
+                throw new ArgumentException($"Hours must be between {item.Employee.MinHours} and {item.Employee.MaxHours}");
+            }
         }
 
         public void Delete(int id)

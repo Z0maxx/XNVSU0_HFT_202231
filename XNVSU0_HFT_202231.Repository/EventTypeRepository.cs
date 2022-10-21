@@ -3,9 +3,9 @@ using XNVSU0_HFT_202231.Models;
 
 namespace XNVSU0_HFT_202231.Repository
 {
-    public class EventTypeRespository : Repository<EventType>, IRepository<EventType>
+    public class EventTypeRepository : Repository<EventType>, IRepository<EventType>
     {
-        public EventTypeRespository(EmployeeDbContext ctx) : base(ctx)
+        public EventTypeRepository(EmployeeDbContext ctx) : base(ctx)
         {
         }
         public override EventType Read(int? id)

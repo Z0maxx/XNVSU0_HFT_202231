@@ -4,9 +4,9 @@ using XNVSU0_HFT_202231.Models;
 
 namespace XNVSU0_HFT_202231.Repository
 {
-    public class FixedWageOrderRespository : Repository<FixedWageOrder>, IRepository<FixedWageOrder>
+    public class FixedWageOrderRepository : Repository<FixedWageOrder>, IRepository<FixedWageOrder>
     {
-        public FixedWageOrderRespository(EmployeeDbContext ctx) : base(ctx)
+        public FixedWageOrderRepository(EmployeeDbContext ctx) : base(ctx)
         {
         }
         public override FixedWageOrder Read(int? id)

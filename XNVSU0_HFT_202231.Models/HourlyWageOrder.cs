@@ -16,5 +16,14 @@ namespace XNVSU0_HFT_202231.Models
         {
             Hours = hours;
         }
+        public override bool Equals(object obj)
+        {
+            var other = obj as HourlyWageOrder;
+            return OrderDate == other.OrderDate && FirstName == other.FirstName && LastName == other.LastName && EmailAddress == other.EmailAddress;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
