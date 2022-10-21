@@ -10,7 +10,7 @@ namespace XNVSU0_HFT_202231.Repository
             this.ctx = ctx;
         }
 
-        public void Create(T item)
+        public virtual void Create(T item)
         {
             ctx.Set<T>().Add(item);
             ctx.SaveChanges();

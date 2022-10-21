@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using XNVSU0_HFT_202231.Models;
 
 namespace XNVSU0_HFT_202231.Repository
@@ -12,8 +13,14 @@ namespace XNVSU0_HFT_202231.Repository
         {
             return ctx.HourlyWageEmployees.FirstOrDefault(emp => emp.Id == id);
         }
+        public override void Create(HourlyWageEmployee item)
+        {
+            if (ctx.Jobs.FirstOrDefault(job => job.Id == item.JobId) == null) throw new ArgumentException("Job by this id not found: " + item.JobId);
+            base.Create(item);
+        }
         public override void Update(HourlyWageEmployee item)
         {
+            if (ctx.Jobs.FirstOrDefault(job => job.Id == item.JobId) == null) throw new ArgumentException("Job by this id not found: " + item.JobId);
             var old = ctx.HourlyWageEmployees.FirstOrDefault(emp => emp.Id == item.Id);
             var properties = item.GetType().GetProperties();
             foreach (var prop in properties)
