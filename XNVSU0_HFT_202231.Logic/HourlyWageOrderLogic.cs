@@ -29,7 +29,7 @@ namespace XNVSU0_HFT_202231.Logic
             if (item.Employee == null || item.Id == null) item = repository.ReadAll().Where(order => order.Equals(item)).First();
             if (item.Hours < item.Employee.MinHours || item.Hours > item.Employee.MaxHours)
             {
-                Delete((int)item.Id);
+                repository.Delete((int)item.Id);
                 throw new ArgumentException($"Hours must be between {item.Employee.MinHours} and {item.Employee.MaxHours}");
             }
         }
@@ -54,7 +54,14 @@ namespace XNVSU0_HFT_202231.Logic
         public void Update(HourlyWageOrder item)
         {
             if (repository.Read(item.Id) == null) throw new ArgumentException("Order not found by this id: " + item.Id);
+            var old = repository.Read(item.Id);
             repository.Update(item);
+            if (item.Employee == null || item.Id == null) item = repository.ReadAll().Where(order => order.Equals(item)).First();
+            if (item.Hours < item.Employee.MinHours || item.Hours > item.Employee.MaxHours)
+            {
+                repository.Update(old);
+                throw new ArgumentException($"Hours must be between {item.Employee.MinHours} and {item.Employee.MaxHours}");
+            }
         }
     }
 }

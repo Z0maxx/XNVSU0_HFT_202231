@@ -488,5 +488,71 @@ namespace XNVSU0_HFT_202231.Test
             HourlyWageEmployeeLogic.Create(emp);
             HourlyWageEmployeeRepository.Verify(r => r.Create(emp), Times.Once);
         }
+        [Test]
+        public void CreateInvalidOrder()
+        {
+            var order = new HourlyWageOrder()
+            {
+                Id = 6,
+                FirstName = "Nagy",
+                LastName = "János",
+                EmailAddress = "nagy.janos@gmail.com",
+                OrderDate = DateTime.Now,
+                Hours = 8,
+                EmployeeId = 1,
+                Employee = HourlyWageEmployees.First(emp => emp.Id == 1)
+            };
+            Assert.Throws<ArgumentException>(() => HourlyWageOrderLogic.Create(order));
+        }
+        [Test]
+        public void UpdateInvalidOrder()
+        {
+            var order = new HourlyWageOrder()
+            {
+                Id = 6,
+                FirstName = "Nagy",
+                LastName = "János",
+                EmailAddress = "nagy.janos@gmail.com",
+                OrderDate = DateTime.Now,
+                Hours = 8,
+                EmployeeId = 1,
+                Employee = HourlyWageEmployees.First(emp => emp.Id == 1)
+            };
+            Assert.Throws<ArgumentException>(() => HourlyWageOrderLogic.Update(order));
+        }
+        [Test]
+        public void CreateValidOrder()
+        {
+            var order = new HourlyWageOrder()
+            {
+                Id = 6,
+                FirstName = "Nagy",
+                LastName = "János",
+                EmailAddress = "nagy.janos@gmail.com",
+                OrderDate = DateTime.Now,
+                Hours = 3,
+                EmployeeId = 1,
+                Employee = HourlyWageEmployees.First(emp => emp.Id == 1)
+            };
+            HourlyWageOrderLogic.Create(order);
+            HourlyWageOrderRepository.Verify(r => r.Create(order), Times.Once);
+        }
+        [Test]
+        public void UpdateValidOrder()
+        {
+            var order = new HourlyWageOrder()
+            {
+                Id = 1,
+                FirstName = "Nagy",
+                LastName = "János",
+                EmailAddress = "nagy.janos@gmail.com",
+                OrderDate = DateTime.Now,
+                Hours = 3,
+                EmployeeId = 1,
+                Employee = HourlyWageEmployees.First(emp => emp.Id == 1)
+            };
+            HourlyWageOrderLogic.Update(order);
+            HourlyWageOrderRepository.Verify(r => r.Update(order), Times.Once);
+        }
     }
 }
