@@ -7,22 +7,22 @@ namespace XNVSU0_HFT_202231.Models
     public abstract class Order
     {
         [Key]
-        [Required(ErrorMessage = "Order id is required")]
-        [Range(1, int.MaxValue, ErrorMessage = "Order id must be greater than 0")]
+        [Required(ErrorMessage = "Id is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Id must be greater than 0")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? Id { get; set; }
         [Required(ErrorMessage = "Order date is required")]
         public DateTime? OrderDate { get; set; }
-        [Required(ErrorMessage = "Order employee id is required")]
+        [Required(ErrorMessage = "Employee id is required")]
         public int? EmployeeId { get; set; }
-        [Required(ErrorMessage = "Order first name is required")]
-        [StringLength(30)]
+        [Required(ErrorMessage = "First name is required")]
+        [StringLength(30, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 30 characters")]
         public string FirstName { get; set; }
-        [Required(ErrorMessage = "Order last name is required")]
-        [StringLength(30)]
+        [Required(ErrorMessage = "Last name is required")]
+        [StringLength(30, MinimumLength = 2, ErrorMessage = "Last name must be between 2 and 30 characters")]
         public string LastName { get; set; }
-        [Required(ErrorMessage = "Order email address is required")]
-        [StringLength(50, MinimumLength = 10, ErrorMessage = "Order email address is required")]
+        [Required(ErrorMessage = "Email address is required")]
+        [StringLength(50, MinimumLength = 10, ErrorMessage = "Email address must be between 10 and 50 characters")]
         public string EmailAddress { get; set; }
         public string PhoneNumber { get; set; }
         protected Order()

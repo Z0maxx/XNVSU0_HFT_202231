@@ -8,12 +8,12 @@ namespace XNVSU0_HFT_202231.Models
     public class EventType
     {
         [Key]
-        [Required(ErrorMessage = "Event type id is required")]
-        [Range(1, int.MaxValue, ErrorMessage = "Event type id must be greater than 0")]
+        [Required(ErrorMessage = "Id is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Id must be greater than 0")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? Id { get; set; }
-        [Required(ErrorMessage = "Event type name is required")]
-        [StringLength(30, MinimumLength = 3, ErrorMessage = "Event type name must be between 3 and 30 characters")]
+        [Required(ErrorMessage = "Name is required")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Name must be between 3 and 30 characters")]
         public string Name { get; set; }
         [JsonIgnore]
         public virtual ICollection<FixedWageOrder> Orders { get; set; }
