@@ -9,7 +9,7 @@ namespace XNVSU0_HFT_202231.Logic
 {
     public class EventTypeLogic
     {
-        IRepository<EventType> repository;
+        readonly IRepository<EventType> repository;
         public EventTypeLogic(IRepository<EventType> repository)
         {
             this.repository = repository;

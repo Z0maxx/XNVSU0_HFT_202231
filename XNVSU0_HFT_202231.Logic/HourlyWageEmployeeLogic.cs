@@ -9,7 +9,7 @@ namespace XNVSU0_HFT_202231.Logic
 {
     public class HourlyWageEmployeeLogic
     {
-        IRepository<HourlyWageEmployee> repository;
+        readonly IRepository<HourlyWageEmployee> repository;
         public HourlyWageEmployeeLogic(IRepository<HourlyWageEmployee> repository)
         {
             this.repository = repository;

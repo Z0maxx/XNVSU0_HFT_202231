@@ -9,7 +9,7 @@ namespace XNVSU0_HFT_202231.Logic
 {
     public class FixedWageOrderLogic
     {
-        IRepository<FixedWageOrder> repository;
+        readonly IRepository<FixedWageOrder> repository;
         public FixedWageOrderLogic(IRepository<FixedWageOrder> repository)
         {
             this.repository = repository;

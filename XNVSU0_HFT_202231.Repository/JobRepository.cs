@@ -3,9 +3,9 @@ using XNVSU0_HFT_202231.Models;
 
 namespace XNVSU0_HFT_202231.Repository
 {
-    public class JobRespository : Repository<Job>, IRepository<Job>
+    public class JobRepository : Repository<Job>, IRepository<Job>
     {
-        public JobRespository(EmployeeDbContext ctx) : base(ctx)
+        public JobRepository(EmployeeDbContext ctx) : base(ctx)
         {
         }
         public override Job Read(int? id)

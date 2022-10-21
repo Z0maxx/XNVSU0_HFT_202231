@@ -9,7 +9,7 @@ namespace XNVSU0_HFT_202231.Logic
 {
     public class FixedWageEmployeeLogic
     {
-        IRepository<FixedWageEmployee> repository;
+        readonly IRepository<FixedWageEmployee> repository;
         public FixedWageEmployeeLogic(IRepository<FixedWageEmployee> repository)
         {
             this.repository = repository;

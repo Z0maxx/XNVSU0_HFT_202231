@@ -9,7 +9,7 @@ namespace XNVSU0_HFT_202231.Logic
 {
     public class JobLogic
     {
-        IRepository<Job> repository;
+        readonly IRepository<Job> repository;
         public JobLogic(IRepository<Job> repository)
         {
             this.repository = repository;
