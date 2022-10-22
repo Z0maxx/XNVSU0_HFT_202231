@@ -7,7 +7,7 @@ using XNVSU0_HFT_202231.Repository;
 
 namespace XNVSU0_HFT_202231.Logic
 {
-    public class FixedWageEmployeeLogic
+    public class FixedWageEmployeeLogic : IFixedWageEmployeeLogic
     {
         readonly IRepository<FixedWageEmployee> repository;
         public FixedWageEmployeeLogic(IRepository<FixedWageEmployee> repository)
@@ -47,7 +47,16 @@ namespace XNVSU0_HFT_202231.Logic
 
         public void Update(FixedWageEmployee item)
         {
+            if (item.Id == null) throw new ArgumentException("Id is required");
             if (repository.Read(item.Id) == null) throw new ArgumentException("Employee not found by this id: " + item.Id);
+            PropertyInfo[] propInfos = item.GetType().GetProperties();
+            string[] propOrder = { "Id", "FirstName", "LastName", "Wage", "HireDate", "EmailAddress", "Hours", "PhoneNumber" };
+            foreach (var prop in propOrder)
+            {
+                var propInfo = propInfos.First(propInfo => propInfo.Name == prop);
+                var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
+                Validator.ValidateValue(propInfo.GetValue(item), new ValidationContext(item), attributes);
+            }
             repository.Update(item);
         }
     }

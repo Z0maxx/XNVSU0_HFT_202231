@@ -7,7 +7,7 @@ using XNVSU0_HFT_202231.Repository;
 
 namespace XNVSU0_HFT_202231.Logic
 {
-    public class JobLogic
+    public class JobLogic : IJobLogic
     {
         readonly IRepository<Job> repository;
         public JobLogic(IRepository<Job> repository)
@@ -47,7 +47,16 @@ namespace XNVSU0_HFT_202231.Logic
 
         public void Update(Job item)
         {
+            if (item.Id == null) throw new ArgumentException("Id is required");
             if (repository.Read(item.Id) == null) throw new ArgumentException("Job not found by this id: " + item.Id);
+            PropertyInfo[] propInfos = item.GetType().GetProperties();
+            string[] propOrder = { "Id", "Name" };
+            foreach (var prop in propOrder)
+            {
+                var propInfo = propInfos.First(propInfo => propInfo.Name == prop);
+                var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
+                Validator.ValidateValue(propInfo.GetValue(item), new ValidationContext(item), attributes);
+            }
             repository.Update(item);
         }
     }

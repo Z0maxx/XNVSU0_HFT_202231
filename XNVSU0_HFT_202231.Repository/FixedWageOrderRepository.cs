@@ -27,7 +27,10 @@ namespace XNVSU0_HFT_202231.Repository
             var properties = item.GetType().GetProperties();
             foreach (var prop in properties)
             {
-                prop.SetValue(old, prop.GetValue(item));
+                if (prop.GetAccessors().FirstOrDefault(a => a.IsVirtual) == null)
+                {
+                    prop.SetValue(old, prop.GetValue(item));
+                }
             }
             ctx.SaveChanges();
         }

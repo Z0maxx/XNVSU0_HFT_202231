@@ -15,11 +15,14 @@ namespace XNVSU0_HFT_202231.Repository
 
         public override void Update(Job item)
         {
-            var old = ctx.HourlyWageEmployees.FirstOrDefault(job => job.Id == item.Id);
+            var old = ctx.Jobs.FirstOrDefault(job => job.Id == item.Id);
             var properties = item.GetType().GetProperties();
             foreach (var prop in properties)
             {
-                prop.SetValue(old, prop.GetValue(item));
+                if (prop.GetAccessors().FirstOrDefault(a => a.IsVirtual) == null)
+                {
+                    prop.SetValue(old, prop.GetValue(item));
+                }
             }
             ctx.SaveChanges();
         }
