@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace XNVSU0_HFT_202231.Models
 {
-    public class Job
+    public class Job : IModel
     {
         [Key]
         [Range(1, int.MaxValue, ErrorMessage = "Id must be greater than 0")]
@@ -25,6 +25,10 @@ namespace XNVSU0_HFT_202231.Models
         {
             Id = id;
             Name = name;
+        }
+        public override string ToString()
+        {
+            return Name;
         }
         public override bool Equals(object obj)
         {

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace XNVSU0_HFT_202231.Models
 {
-    public class HourlyWageEmployee : Employee
+    public class HourlyWageEmployee : Employee, IModel
     {
         [Range(1, 10, ErrorMessage = "Minimum hours must be between 1 and 10")]
         public double? MinHours { get; set; }
@@ -22,6 +22,10 @@ namespace XNVSU0_HFT_202231.Models
         {
             MinHours = minHours;
             MaxHours = maxHours;
+        }
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}, {Job} - Wage: {Wage} Hours: {MinHours} - {MaxHours}";
         }
         public override bool Equals(object obj)
         {

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace XNVSU0_HFT_202231.Models
 {
-    public class FixedWageOrder : Order
+    public class FixedWageOrder : Order, IModel
     {
         [Required(ErrorMessage = "Event type id is required")]
         public int? EventTypeId { get; set; }

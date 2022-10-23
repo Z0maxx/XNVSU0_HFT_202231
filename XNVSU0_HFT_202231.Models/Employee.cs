@@ -1,10 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace XNVSU0_HFT_202231.Models
 {
-    public abstract class Employee
+    public abstract class Employee : IModel
     {
         [Key]
         [Range(1, int.MaxValue, ErrorMessage = "Id must be greater than 0")]
@@ -16,7 +17,8 @@ namespace XNVSU0_HFT_202231.Models
         [Required(ErrorMessage = "Last name is required")]
         [StringLength(30, MinimumLength = 2, ErrorMessage = "Last name must be between 2 and 30 characters")]
         public string LastName { get; set; }
-        public int JobId { get; set; }
+        [Required(ErrorMessage = "Job id is required")]
+        public int? JobId { get; set; }
         public virtual Job Job { get; set; }
         [Range(1000, 99999, ErrorMessage = "Wage must be between 1000 and 99999")]
         public double? Wage { get; set; }

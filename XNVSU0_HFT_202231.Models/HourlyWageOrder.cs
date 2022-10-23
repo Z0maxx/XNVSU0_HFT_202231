@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace XNVSU0_HFT_202231.Models
 {
-    public class HourlyWageOrder : Order
+    public class HourlyWageOrder : Order, IModel
     {
         [Required(ErrorMessage = "Number of hours is required")]
         public double? Hours { get; set; }

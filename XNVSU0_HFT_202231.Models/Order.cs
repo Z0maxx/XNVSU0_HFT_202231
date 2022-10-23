@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace XNVSU0_HFT_202231.Models
 {
-    public abstract class Order
+    public abstract class Order : IModel
     {
         [Key]
         [Range(1, int.MaxValue, ErrorMessage = "Id must be greater than 0")]

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace XNVSU0_HFT_202231.Models
 {
-    public class FixedWageEmployee : Employee
+    public class FixedWageEmployee : Employee, IModel
     {
         [Range(1, 12, ErrorMessage = "Work hours must be between 1 and 12")]
         public double? Hours { get; set; }
@@ -18,6 +18,10 @@ namespace XNVSU0_HFT_202231.Models
             : base(id, firstName, lastName, jobId, wage, hireDate, emailAddress, phoneNumber)
         {
             Hours = hours;
+        }
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}, {Job} - Wage: {Wage}; Hours: {Hours}";
         }
         public override bool Equals(object obj)
         {
