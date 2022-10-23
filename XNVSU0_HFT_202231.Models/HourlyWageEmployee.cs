@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace XNVSU0_HFT_202231.Models
 {
+    [DisplayName("Hourly wage employee")]
     public class HourlyWageEmployee : Employee, IModel
     {
-        [Range(1, 10, ErrorMessage = "Minimum hours must be between 1 and 10")]
+        [Range(1, 10, ErrorMessage = "Minimum work hours must be between 1 and 10")]
+        [DisplayName("Minimum work hours")]
         public double? MinHours { get; set; }
-        [Range(2, 12, ErrorMessage = "Maximumn hours must be between 2 and 12")]
+        [Range(2, 12, ErrorMessage = "Maximumn work hours must be between 2 and 12")]
+        [DisplayName("Maximum work hours")]
         public double? MaxHours { get; set; }
         [JsonIgnore]
         public virtual ICollection<HourlyWageOrder> Orders { get; set; }
@@ -25,7 +29,7 @@ namespace XNVSU0_HFT_202231.Models
         }
         public override string ToString()
         {
-            return $"{FirstName} {LastName}, {Job} - Wage: {Wage} Hours: {MinHours} - {MaxHours}";
+            return $"{FirstName} {LastName}, {Job} - Wage: {Wage} Work hours: {MinHours} - {MaxHours}";
         }
         public override bool Equals(object obj)
         {

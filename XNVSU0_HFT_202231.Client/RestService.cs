@@ -151,7 +151,6 @@ namespace XNVSU0_HFT_202231.Client
     {
         public RestExceptionInfo1()
         {
-
         }
         public string Type { get; set; }
         public string Title { get; set; }
@@ -164,7 +163,6 @@ namespace XNVSU0_HFT_202231.Client
     {
         public RestExceptionInfo2()
         {
-
         }
         public string Msg { get; set; }
     }

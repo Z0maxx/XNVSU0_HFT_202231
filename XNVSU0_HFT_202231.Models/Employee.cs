@@ -13,19 +13,25 @@ namespace XNVSU0_HFT_202231.Models
         public int? Id { get; set; }
         [Required(ErrorMessage = "First name is required")]
         [StringLength(30, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 30 characters")]
+        [DisplayName("First name")]
         public string FirstName { get; set; }
         [Required(ErrorMessage = "Last name is required")]
         [StringLength(30, MinimumLength = 2, ErrorMessage = "Last name must be between 2 and 30 characters")]
+        [DisplayName("Last name")]
         public string LastName { get; set; }
         [Required(ErrorMessage = "Job id is required")]
+        [DisplayName("Job id")]
         public int? JobId { get; set; }
         public virtual Job Job { get; set; }
         [Range(1000, 99999, ErrorMessage = "Wage must be between 1000 and 99999")]
         public double? Wage { get; set; }
         [Required(ErrorMessage = "Hire date is required")]
+        [DisplayName("Hire date")]
         public DateTime? HireDate { get; set; }
         [StringLength(50, MinimumLength = 10, ErrorMessage = "Email address must be between 10 and 50 characters")]
+        [DisplayName("Email address")]
         public string EmailAddress { get; set; }
+        [DisplayName("Phone number")]
         public string PhoneNumber { get; set; }
         protected Employee()
         {

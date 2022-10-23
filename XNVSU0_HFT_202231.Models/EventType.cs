@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace XNVSU0_HFT_202231.Models
 {
+    [DisplayName("Event type")]
     public class EventType : IModel
     {
         [Key]

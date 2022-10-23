@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace XNVSU0_HFT_202231.Models
 {
+    [DisplayName("Fixed wage employee")]
     public class FixedWageEmployee : Employee, IModel
     {
         [Range(1, 12, ErrorMessage = "Work hours must be between 1 and 12")]
+        [DisplayName("Work hours")]
         public double? Hours { get; set; }
         [JsonIgnore]
         public virtual ICollection<FixedWageOrder> Orders { get; set; }
@@ -21,7 +24,7 @@ namespace XNVSU0_HFT_202231.Models
         }
         public override string ToString()
         {
-            return $"{FirstName} {LastName}, {Job} - Wage: {Wage}; Hours: {Hours}";
+            return $"{FirstName} {LastName}, {Job} - Wage: {Wage}; Work hours: {Hours}";
         }
         public override bool Equals(object obj)
         {

@@ -1,13 +1,17 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace XNVSU0_HFT_202231.Models
 {
+    [DisplayName("Fixed wage order")]
     public class FixedWageOrder : Order, IModel
     {
         [Required(ErrorMessage = "Event type id is required")]
+        [DisplayName("Event type id")]
         public int? EventTypeId { get; set; }
         public virtual FixedWageEmployee Employee { get; set; }
+        [DisplayName("Event type")]
         public virtual EventType EventType { get; set; }
         public FixedWageOrder()
         {

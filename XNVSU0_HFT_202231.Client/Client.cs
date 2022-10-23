@@ -10,14 +10,15 @@ using System.Collections.Generic;
 
 namespace XNVSU0_HFT_202231.Client
 {
-    abstract class Client<T> where T : class, new()
+    abstract class Client<T> : IClient where T : class, new()
     {
         protected readonly RestService rest;
         protected readonly string[] args;
         protected readonly string endpoint;
         protected readonly string[] propOrder;
-        protected delegate IEnumerable<IModel> ModelDelegate<IModel>(string endpoint);
-        protected readonly Dictionary<string, (ModelDelegate<IModel>, string)> optionsDict;
+        protected delegate IEnumerable<IModel> RestGetDelegate<IModel>(string endpoint);
+        protected readonly Dictionary<string, Dictionary<string, object>> optionsDict;
+        public readonly ConsoleMenu MethodsMenu;
         public Client(RestService rest, string[] args, string[] propOrder)
         {
             this.rest = rest;
@@ -25,31 +26,41 @@ namespace XNVSU0_HFT_202231.Client
             this.propOrder = propOrder;
             endpoint = typeof(T).Name.ToLower();
             optionsDict = new();
+            MethodsMenu = new ConsoleMenu(args, level: 1)
+                .Configure(config =>
+                 {
+                     config.Title = $"[{GetDisplayName(typeof(T))}]\n";
+                     config.EnableWriteTitle = true;
+                 })
+                .Add("Create", () => Create())
+                .Add("Read", () => Read())
+                .Add("ReadAll", () => ReadAll())
+                .Add("Update", () => Update())
+                .Add("Delete", () => Delete())
+                .Add("Exit", ConsoleMenu.Close);
         }
         public void Read()
         {
             DisplayOperation();
             Console.Write("Enter id: ");
             string input = Console.ReadLine();
-            if (!int.TryParse(input, out int id))
+            if (int.TryParse(input, out int id))
             {
-                Console.WriteLine($"This is not a number");
-                Console.ReadLine();
-                return;
+                DisplayProcessing();
+                try
+                {
+                    var item = rest.Get<T>(id, endpoint);
+                    DisplayOperation();
+                    DisplayProperties(item as IModel);
+                    Console.WriteLine();
+                }
+                catch (Exception e)
+                {
+                    DisplayOperation();
+                    Console.WriteLine(e.Message);
+                }
             }
-            DisplayProcessing();
-            try
-            {
-                var item = rest.Get<T>(id, endpoint);
-                DisplayOperation();
-                DisplayProperties(item as IModel);
-                Console.WriteLine();
-            }
-            catch (Exception e)
-            {
-                DisplayOperation();
-                Console.WriteLine(e.Message);
-            }
+            else Console.WriteLine($"This is not a number");
             Continue();
         }
         public void ReadAll()
@@ -66,101 +77,31 @@ namespace XNVSU0_HFT_202231.Client
         }
         public void Create()
         {
-            T newItem = new();
-            var propInfos = newItem.GetType().GetProperties();
-            foreach (var prop in propOrder)
+            ;
+            try
             {
-                var propInfo = propInfos.First(p => p.Name == prop);
-                if (propInfo.GetAccessors().FirstOrDefault(a => a.IsVirtual) == null)
-                {
-                    DisplayOperation();
-                    if (prop != "Id" && prop.Substring(prop.Length - 2, 2) == "Id")
-                    {
-                        SetOption(prop, propInfo, newItem);
-                    }
-                    else
-                    {
-                        var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
-                        bool required = true;
-                        if (attributes.FirstOrDefault(a => a is RequiredAttribute) == null)
-                        {
-                            required = false;
-                            Console.WriteLine($"{prop} is not required");
-                        }
-                        foreach (var attribute in attributes)
-                        {
-                            Console.WriteLine(attribute.ErrorMessage);
-                        }
-                        Console.Write($"Enter {prop}: ");
-                        string input = Console.ReadLine();
-                        try
-                        {
-                            if (input == "" && required) throw new ArgumentException("Required");
-                            if (input != "") propInfo.SetValue(newItem, TypeDescriptor.GetConverter(propInfo.PropertyType).ConvertFromString(input));
-                        }
-                        catch
-                        {
-                            Console.WriteLine("This is not a correct value");
-                            Console.ReadLine();
-                            Continue();
-                            return;
-                        }
-                    }
-                }
+                var newItem = GetNewItem();
+                DisplayProcessing();
+                DisplayResults(rest.Post(newItem, endpoint));
             }
-            DisplayProcessing();
-            DisplayResults(rest.Post(newItem, endpoint));
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
             Continue();
         }
         public void Update()
         {
-            T newItem = new();
-            var propInfos = newItem.GetType().GetProperties();
-            foreach (var prop in propOrder)
+            try
             {
-                var propInfo = propInfos.First(p => p.Name == prop);
-                if (propInfo.GetAccessors().FirstOrDefault(a => a.IsVirtual) == null)
-                {
-                    DisplayOperation();
-                    if (prop != "Id" && prop.Substring(prop.Length - 2, 2) == "Id")
-                    {
-                        SetOption(prop, propInfo, newItem);
-                    }
-                    else
-                    {
-                        var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
-                        bool required = true;
-                        if (attributes.FirstOrDefault(a => a is RequiredAttribute) == null && propInfo.Name != "Id")
-                        {
-                            required = false;
-                            Console.WriteLine($"{propInfo.Name} is not required");
-                        }
-                        else if (propInfo.Name == "Id")
-                        {
-                            Console.WriteLine("Id is required");
-                        }
-                        foreach (var attribute in attributes)
-                        {
-                            Console.WriteLine(attribute.ErrorMessage);
-                        }
-                        Console.Write($"Enter {propInfo.Name}: ");
-                        string input = Console.ReadLine();
-                        try
-                        {
-                            if (input == "" && required) throw new ArgumentException("Required");
-                            if (input != "") propInfo.SetValue(newItem, TypeDescriptor.GetConverter(propInfo.PropertyType).ConvertFromString(input));
-                        }
-                        catch
-                        {
-                            Console.WriteLine("This is not a correct value");
-                            Continue();
-                            return;
-                        }
-                    }
-                }
+                var newItem = GetNewItem(requireId: true);
+                DisplayProcessing();
+                DisplayResults(rest.Put(newItem, endpoint));
             }
-            DisplayProcessing();
-            DisplayResults(rest.Put(newItem, endpoint));
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
             Continue();
         }
         public void Delete()
@@ -178,21 +119,55 @@ namespace XNVSU0_HFT_202231.Client
             DisplayResults(rest.Delete(id, endpoint));
             Continue();
         }
-        public void ShowMethods()
+        public T GetNewItem(bool requireId = false, [CallerMemberName] string callerName = "")
         {
-            new ConsoleMenu(args, level: 1)
-                .Configure(config =>
+            T newItem = new();
+            var propInfos = newItem.GetType().GetProperties();
+            foreach (var prop in propOrder)
+            {
+                var propInfo = propInfos.First(p => p.Name == prop);
+                if (propInfo.GetAccessors().FirstOrDefault(a => a.IsVirtual) == null)
                 {
-                    config.Title = $"[{typeof(T).Name}]\n";
-                    config.EnableWriteTitle = true;
-                })
-                .Add("Create", (thisMenu) => { Create(); thisMenu.CloseMenu(); })
-                .Add("Read", (thisMenu) => { Read(); thisMenu.CloseMenu(); })
-                .Add("ReadAll", (thisMenu) => { ReadAll(); thisMenu.CloseMenu(); })
-                .Add("Update", (thisMenu) => { Update(); thisMenu.CloseMenu(); })
-                .Add("Delete", (thisMenu) => { Delete(); thisMenu.CloseMenu(); })
-                .Add("Exit", ConsoleMenu.Close)
-                .Show();
+                    DisplayOperation(callerName);
+                    if (prop != "Id" && prop.Substring(prop.Length - 2, 2) == "Id")
+                    {
+                        SetOption(prop, propInfo, newItem);
+                    }
+                    else
+                    {
+                        var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
+                        bool required = true;
+                        if (requireId && propInfo.Name == "Id")
+                        {
+                            Console.WriteLine("Id is required");
+                        }
+                        else if (attributes.FirstOrDefault(a => a is RequiredAttribute) == null)
+                        {
+                            required = false;
+                            Console.WriteLine($"{GetDisplayName(propInfo)} is not required");
+                        }
+                        foreach (var attribute in attributes)
+                        {
+                            Console.WriteLine(attribute.ErrorMessage);
+                        }
+                        Console.Write($"Enter {GetDisplayName(propInfo)}: ");
+                        string input = Console.ReadLine();
+                        if (input == "" && required) throw new ArgumentException("Incorrect input value");
+                        if (input != "")
+                        {
+                            try
+                            {
+                                propInfo.SetValue(newItem, TypeDescriptor.GetConverter(propInfo.PropertyType).ConvertFromString(input));
+                            }
+                            catch (ArgumentException)
+                            {
+                                throw new ArgumentException("Incorrect input value");
+                            }
+                        }
+                    }
+                }
+            }
+            return newItem;
         }
         void DisplayProperties(IModel item, string level = "")
         {
@@ -201,11 +176,11 @@ namespace XNVSU0_HFT_202231.Client
                 var propValue = prop.GetValue(item);
                 if (prop.GetAccessors().FirstOrDefault(a => a.IsVirtual) == null)
                 {
-                    Console.WriteLine($"{level}{prop.Name}: {propValue}");
+                    Console.WriteLine($"{level}{GetDisplayName(prop)}: {propValue}");
                 }
                 else if (propValue != null)
                 {
-                    Console.WriteLine($"{level}{prop.Name}:");
+                    Console.WriteLine($"{level}{GetDisplayName(prop)}:");
                     string newLevel = level + "    ";
                     DisplayProperties(propValue as IModel, newLevel);
                 }
@@ -215,12 +190,11 @@ namespace XNVSU0_HFT_202231.Client
         {
             Console.WriteLine("Press a button to continue");
             Console.ReadLine();
-            ShowMethods();
         }
         void DisplayOperation([CallerMemberName] string callerName = "")
         {
             Console.Clear();
-            Console.WriteLine($"[{callerName} {typeof(T).Name}]\n");
+            Console.WriteLine($"[{callerName} {GetDisplayName(typeof(T))}]\n");
         }
         void DisplayResults(string[] results, [CallerMemberName] string callerName = "")
         {
@@ -241,10 +215,8 @@ namespace XNVSU0_HFT_202231.Client
                 config.Title = $"[{callerName} {typeof(T).Name}]\n\n{prop} is required\n{prop} options"; ;
                 config.EnableWriteTitle = true;
             });
-            ;
-            var items = optionsDict[prop];
-            var options = items.Item1.Invoke(items.Item2);
-            ;
+            var restDict = optionsDict[prop];
+            var options = (restDict["get"] as RestGetDelegate<IModel>).Invoke((string)restDict["endpoint"]);
             foreach (var option in options)
             {
                 int id = 0;
@@ -258,6 +230,22 @@ namespace XNVSU0_HFT_202231.Client
                 menu.Add(option.ToString(), (thisMenu) => { propInfo.SetValue(newItem, id); thisMenu.CloseMenu(); });
             }
             menu.Show();
+        }
+        public void ShowMenu()
+        {
+            MethodsMenu.Show();
+        }
+        static string GetDisplayName(PropertyInfo prop)
+        {
+            var attribute = prop.GetCustomAttribute<DisplayNameAttribute>();
+            if (attribute == null) return prop.Name;
+            return attribute.DisplayName;
+        }
+        static string GetDisplayName(Type type)
+        {
+            var attribute = type.GetCustomAttribute<DisplayNameAttribute>();
+            if (attribute == null) return type.Name;
+            return attribute.DisplayName;
         }
     }
 }
