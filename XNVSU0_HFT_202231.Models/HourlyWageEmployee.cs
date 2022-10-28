@@ -9,10 +9,12 @@ namespace XNVSU0_HFT_202231.Models
     [DisplayName("Hourly wage employee")]
     public class HourlyWageEmployee : Employee, IModel
     {
+        [Required(ErrorMessage = "Minimum work hours is required")]
         [Range(1, 10, ErrorMessage = "Minimum work hours must be between 1 and 10")]
         [DisplayName("Minimum work hours")]
         public double? MinHours { get; set; }
-        [Range(2, 12, ErrorMessage = "Maximumn work hours must be between 2 and 12")]
+        [Required(ErrorMessage = "Maximum work hours is required")]
+        [Range(2, 12, ErrorMessage = "Maximum work hours must be between 2 and 12")]
         [DisplayName("Maximum work hours")]
         public double? MaxHours { get; set; }
         [JsonIgnore]

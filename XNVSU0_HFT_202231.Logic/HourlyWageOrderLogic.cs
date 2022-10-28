@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using XNVSU0_HFT_202231.Models;
+using XNVSU0_HFT_202231.Models.Stats;
 using XNVSU0_HFT_202231.Repository;
 
 namespace XNVSU0_HFT_202231.Logic
@@ -73,6 +76,15 @@ namespace XNVSU0_HFT_202231.Logic
                 repository.Update(oldCopy);
                 throw new ArgumentException($"Hours must be between {item.Employee.MinHours} and {item.Employee.MaxHours}");
             }
+        }
+        public IEnumerable<IncomeFromOrder> Overview()
+        {
+            return repository.ReadAll().Select(o => new IncomeFromOrder()
+            {
+                OrderDate = o.OrderDate,
+                EmployeeName = o.Employee.FirstName + " " + o.Employee.LastName,
+                Income = o.Hours * o.Employee.Wage
+            });
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
@@ -58,6 +59,10 @@ namespace XNVSU0_HFT_202231.Logic
                 Validator.ValidateValue(propInfo.GetValue(item), new ValidationContext(item), attributes);
             }
             repository.Update(item);
+        }
+        public double? IncomeInMonth(int month)
+        {
+            return repository.ReadAll().Where(o => o.OrderDate.Value.Month == month).Sum(o => o.Employee.Wage);
         }
     }
 }

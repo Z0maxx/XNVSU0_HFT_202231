@@ -9,6 +9,7 @@ namespace XNVSU0_HFT_202231.Models
     [DisplayName("Fixed wage employee")]
     public class FixedWageEmployee : Employee, IModel
     {
+        [Required(ErrorMessage = "Work hours is required")]
         [Range(1, 12, ErrorMessage = "Work hours must be between 1 and 12")]
         [DisplayName("Work hours")]
         public double? Hours { get; set; }

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace XNVSU0_HFT_202231.Client
 {
@@ -56,7 +54,7 @@ namespace XNVSU0_HFT_202231.Client
 
         }
 
-        public List<T> Get<T>(string endpoint)
+        public List<T> GetList<T>(string endpoint)
         {
             List<T> items;
             HttpResponseMessage response = client.GetAsync(endpoint).GetAwaiter().GetResult();
@@ -66,24 +64,23 @@ namespace XNVSU0_HFT_202231.Client
             }
             else
             {
-                throw new ArgumentException(Errors(response)[0]);
+                throw new ArgumentException(CheckResponse(response).Errors[0]);
             }
             return items;
         }
-
-        public T GetSingle<T>(string endpoint)
+        public List<T> GetList<T>(int id, string endpoint)
         {
-            T item;
-            HttpResponseMessage response = client.GetAsync(endpoint).GetAwaiter().GetResult();
+            List<T> items;
+            HttpResponseMessage response = client.GetAsync(endpoint + "/" + id.ToString()).GetAwaiter().GetResult();
             if (response.IsSuccessStatusCode)
             {
-                item = response.Content.ReadAsAsync<T>().GetAwaiter().GetResult();
+                items = response.Content.ReadAsAsync<List<T>>().GetAwaiter().GetResult();
             }
             else
             {
-                throw new ArgumentException(Errors(response)[0]);
+                throw new ArgumentException(CheckResponse(response).Errors[0]);
             }
-            return item;
+            return items;
         }
 
         public T Get<T>(int id, string endpoint)
@@ -98,53 +95,80 @@ namespace XNVSU0_HFT_202231.Client
             }
             else
             {
-                throw new ArgumentException(Errors(response)[0]);
+                throw new ArgumentException(CheckResponse(response).Errors[0]);
+            }
+            return item;
+        }
+        public T Get<T>(string endpoint)
+        {
+            T item;
+            HttpResponseMessage response = client.GetAsync(endpoint).GetAwaiter().GetResult();
+            if (response.IsSuccessStatusCode)
+            {
+                var json = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                var jsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+                item = JsonSerializer.Deserialize<T>(json, jsonOptions);
+            }
+            else
+            {
+                throw new ArgumentException(CheckResponse(response).Errors[0]);
             }
             return item;
         }
 
-        public string[] Post<T>(T item, string endpoint)
+
+        public Result Post<T>(T item, string endpoint)
         {
             HttpResponseMessage response =
                 client.PostAsJsonAsync(endpoint, item).GetAwaiter().GetResult();
 
-            return Errors(response);
+            return CheckResponse(response);
         }
 
-        public string[] Delete(int id, string endpoint)
+        public Result Delete(int id, string endpoint)
         {
             HttpResponseMessage response =
                 client.DeleteAsync(endpoint + "/" + id.ToString()).GetAwaiter().GetResult();
 
-            return Errors(response);
+            return CheckResponse(response);
         }
 
-        public string[] Put<T>(T item, string endpoint)
+        public Result Put<T>(T item, string endpoint)
         {
             HttpResponseMessage response =
                 client.PutAsJsonAsync(endpoint, item).GetAwaiter().GetResult();
 
-            return Errors(response);
+            return CheckResponse(response);
         }
 
-        public static string[] Errors(HttpResponseMessage response)
+        public static Result CheckResponse(HttpResponseMessage response)
         {
             if (response.IsSuccessStatusCode)
             {
-                return new string[] { "Request completed" };
+                return new Result(success: true);
             }
             else if (response.Content.Headers.ContentType?.MediaType == "application/problem+json")
             {
                 var json = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                 var jsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
                 var errors = JsonSerializer.Deserialize<RestExceptionInfo1>(json, jsonOptions).Errors;
-                return errors.Select(e => e.Value[0]).ToArray();
+                return new Result(success: false, errors.Select(e => e.Value[0]).ToArray());
             }
             else
             {
                 var error = response.Content.ReadAsAsync<RestExceptionInfo2>().GetAwaiter().GetResult();
-                return new string[] { error.Msg };
+                return new Result(success: false, new string[] { error.Msg });
             }
+        }
+    }
+    public class Result
+    {
+        public bool Success { get; }
+        public string[] Errors { get; }
+        public Result(bool success, string[] errors = null)
+        {
+            Success = success;
+            Errors = errors;
         }
     }
     public class RestExceptionInfo1

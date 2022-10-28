@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Others", "Others", "{BF889D
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XNVSU0_HFT_202231.Stats", "XNVSU0_HFT_202231.Stats\XNVSU0_HFT_202231.Stats.csproj", "{51143F68-0E8A-4698-8E44-C0BF1EB8C169}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{703D0B65-AF74-42A3-872D-80C98E728C51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{703D0B65-AF74-42A3-872D-80C98E728C51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{703D0B65-AF74-42A3-872D-80C98E728C51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51143F68-0E8A-4698-8E44-C0BF1EB8C169}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51143F68-0E8A-4698-8E44-C0BF1EB8C169}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51143F68-0E8A-4698-8E44-C0BF1EB8C169}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51143F68-0E8A-4698-8E44-C0BF1EB8C169}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{2A225EB6-DD37-441D-B6DB-DA4BDC36DA62} = {11821B44-F7E5-40AB-819A-2043B533272F}
 		{58EF98CC-BFEB-4A61-B4F3-012EE3B829BF} = {11821B44-F7E5-40AB-819A-2043B533272F}
 		{703D0B65-AF74-42A3-872D-80C98E728C51} = {11821B44-F7E5-40AB-819A-2043B533272F}
+		{51143F68-0E8A-4698-8E44-C0BF1EB8C169} = {B96FF2EC-8F37-4C6E-8E13-62F533CC5167}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {51B071CE-6210-47AB-9823-05EBF8046CE4}

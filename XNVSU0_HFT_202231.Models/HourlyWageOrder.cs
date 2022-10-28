@@ -7,7 +7,7 @@ namespace XNVSU0_HFT_202231.Models
     [DisplayName("Hourly wage order")]
     public class HourlyWageOrder : Order, IModel
     {
-        [Required(ErrorMessage = "Number of work hours is required")]
+        [Required(ErrorMessage = "Work hours is required")]
         [DisplayName("Work hours")]
         public double? Hours { get; set; }
         public virtual HourlyWageEmployee Employee { get; set; }

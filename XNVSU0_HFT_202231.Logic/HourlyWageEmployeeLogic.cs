@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using XNVSU0_HFT_202231.Models;
+using XNVSU0_HFT_202231.Models.Stats;
 using XNVSU0_HFT_202231.Repository;
 
 namespace XNVSU0_HFT_202231.Logic
@@ -59,6 +62,15 @@ namespace XNVSU0_HFT_202231.Logic
                 Validator.ValidateValue(propInfo.GetValue(item), new ValidationContext(item), attributes);
             }
             repository.Update(item);
+        }
+        public IEnumerable<EmployeeAverageHours> AverageHours()
+        {
+            var averageHours = repository.ReadAll().Select(e => new EmployeeAverageHours()
+            {
+                EmployeeName = e.FirstName + " " + e.LastName,
+                AverageHours = e.Orders.Average(o => o.Hours)
+            });
+            return averageHours;
         }
     }
 }

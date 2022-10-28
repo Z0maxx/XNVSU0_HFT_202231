@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using XNVSU0_HFT_202231.Models;
+using XNVSU0_HFT_202231.Models.Stats;
 using XNVSU0_HFT_202231.Repository;
 
 namespace XNVSU0_HFT_202231.Logic
@@ -18,7 +21,7 @@ namespace XNVSU0_HFT_202231.Logic
         {
             if (repository.Read(item.Id) != null) throw new ArgumentException("Employee by this id already exists: " + item.Id);
             PropertyInfo[] propInfos = item.GetType().GetProperties();
-            string[] propOrder = { "Id", "FirstName", "LastName", "Wage", "HireDate", "EmailAddress", "Hours", "PhoneNumber" };
+            string[] propOrder = { "Id", "FirstName", "LastName", "Wage", "HireDate", "EmailAddress", "Hours" };
             foreach (var prop in propOrder)
             {
                 var propInfo = propInfos.First(propInfo => propInfo.Name == prop);
@@ -58,6 +61,16 @@ namespace XNVSU0_HFT_202231.Logic
                 Validator.ValidateValue(propInfo.GetValue(item), new ValidationContext(item), attributes);
             }
             repository.Update(item);
+        }
+        public IEnumerable<EmployeeOrdersCount> MostPopular()
+        {
+            int mostOrders = repository.ReadAll().Select(e => e.Orders.Count).OrderByDescending(c => c).Take(1).First();
+            var mostPopular = repository.ReadAll().Where(e => e.Orders.Count == mostOrders).Select(e => new EmployeeOrdersCount()
+            {
+                EmployeeName = e.FirstName + " " + e.LastName,
+                OrdersCount = e.Orders.Count
+            });
+            return mostPopular;
         }
     }
 }

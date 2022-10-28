@@ -18,7 +18,7 @@ namespace XNVSU0_HFT_202231.Client
         protected readonly string[] propOrder;
         protected delegate IEnumerable<IModel> RestGetDelegate<IModel>(string endpoint);
         protected readonly Dictionary<string, Dictionary<string, object>> optionsDict;
-        public readonly ConsoleMenu MethodsMenu;
+        protected readonly ConsoleMenu MethodsMenu;
         public Client(RestService rest, string[] args, string[] propOrder)
         {
             this.rest = rest;
@@ -66,7 +66,7 @@ namespace XNVSU0_HFT_202231.Client
         public void ReadAll()
         {
             DisplayProcessing();
-            var items = rest.Get<T>(endpoint);
+            var items = rest.GetList<T>(endpoint);
             DisplayOperation();
             foreach (var item in items)
             {
@@ -77,12 +77,11 @@ namespace XNVSU0_HFT_202231.Client
         }
         public void Create()
         {
-            ;
             try
             {
                 var newItem = GetNewItem();
                 DisplayProcessing();
-                DisplayResults(rest.Post(newItem, endpoint));
+                DisplayResult(rest.Post(newItem, endpoint));
             }
             catch (ArgumentException e)
             {
@@ -96,7 +95,7 @@ namespace XNVSU0_HFT_202231.Client
             {
                 var newItem = GetNewItem(requireId: true);
                 DisplayProcessing();
-                DisplayResults(rest.Put(newItem, endpoint));
+                DisplayResult(rest.Put(newItem, endpoint));
             }
             catch (ArgumentException e)
             {
@@ -116,7 +115,7 @@ namespace XNVSU0_HFT_202231.Client
                 return;
             }
             DisplayProcessing();
-            DisplayResults(rest.Delete(id, endpoint));
+            DisplayResult(rest.Delete(id, endpoint));
             Continue();
         }
         public T GetNewItem(bool requireId = false, [CallerMemberName] string callerName = "")
@@ -131,7 +130,7 @@ namespace XNVSU0_HFT_202231.Client
                     DisplayOperation(callerName);
                     if (prop != "Id" && prop.Substring(prop.Length - 2, 2) == "Id")
                     {
-                        SetOption(prop, propInfo, newItem);
+                        SetOption(prop, propInfo, newItem, callerName);
                     }
                     else
                     {
@@ -186,22 +185,37 @@ namespace XNVSU0_HFT_202231.Client
                 }
             }
         }
-        void Continue()
+        static void Continue()
         {
             Console.WriteLine("Press a button to continue");
             Console.ReadLine();
         }
-        void DisplayOperation([CallerMemberName] string callerName = "")
+        static void DisplayOperation([CallerMemberName] string callerName = "")
         {
             Console.Clear();
-            Console.WriteLine($"[{callerName} {GetDisplayName(typeof(T))}]\n");
+            Console.WriteLine($"[{GetDisplayName(typeof(T))} {callerName}]\n");
         }
-        void DisplayResults(string[] results, [CallerMemberName] string callerName = "")
+        static void DisplayResult(Result result, [CallerMemberName] string callerName = "")
         {
+            ConsoleColor originalColor = Console.ForegroundColor;
+            ConsoleColor originalBColor = Console.BackgroundColor;
+            Console.BackgroundColor = ConsoleColor.Black;
             DisplayOperation(callerName);
-            foreach (var result in results) Console.WriteLine(result);
+            if (result.Success)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine($"{callerName} completed");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine($"{callerName} failed");
+                foreach (var error in result.Errors) Console.WriteLine(error);
+            }
+            Console.ForegroundColor = originalColor;
+            Console.BackgroundColor = originalBColor;
         }
-        void DisplayProcessing([CallerMemberName] string callerName = "")
+        static void DisplayProcessing([CallerMemberName] string callerName = "")
         {
             DisplayOperation(callerName);
             Console.WriteLine("Processing");
@@ -212,7 +226,7 @@ namespace XNVSU0_HFT_202231.Client
             var menu = new ConsoleMenu();
             menu.Configure(config =>
             {
-                config.Title = $"[{callerName} {typeof(T).Name}]\n\n{prop} is required\n{prop} options"; ;
+                config.Title = $"[{GetDisplayName(typeof(T))} {callerName}]\n\n{prop} is required\n{prop} options"; ;
                 config.EnableWriteTitle = true;
             });
             var restDict = optionsDict[prop];

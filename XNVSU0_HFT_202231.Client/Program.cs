@@ -1,8 +1,8 @@
 ﻿using ConsoleTools;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace XNVSU0_HFT_202231.Client
 {
@@ -10,7 +10,7 @@ namespace XNVSU0_HFT_202231.Client
     {
         static void Main(string[] args)
         {
-            Console.BufferHeight = 1000;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Console.BufferHeight = 1000;
             Console.OutputEncoding = System.Text.Encoding.Unicode;
             Console.InputEncoding = System.Text.Encoding.Unicode;
             ShowTables(args);
@@ -25,12 +25,13 @@ namespace XNVSU0_HFT_202231.Client
                 new FixedWageEmployeeClient(rest, args),
                 new FixedWageOrderClient(rest, args),
                 new HourlyWageEmployeeClient(rest, args),
-                new HourlyWageOrderClient(rest, args)
+                new HourlyWageOrderClient(rest, args),
+                new StatClient(rest, args)
             };
             var menu = new ConsoleMenu(args, level: 0)
                 .Configure(config =>
                 {
-                    config.Title = "[Tables]\n";
+                    config.Title = "[Tables and Stats]\n";
                     config.EnableWriteTitle = true;
                 });
             foreach (IClient client in clients)

@@ -15,12 +15,10 @@ namespace XNVSU0_HFT_202231.Repository
         }
         public override void Create(HourlyWageOrder item)
         {
-            if (ctx.HourlyWageEmployees.FirstOrDefault(emp => emp.Id == item.EmployeeId) == null) throw new ArgumentException("Employee by this id not found: " + item.EmployeeId);
             base.Create(item);
         }
         public override void Update(HourlyWageOrder item)
         {
-            if (ctx.HourlyWageEmployees.FirstOrDefault(emp => emp.Id == item.EmployeeId) == null) throw new ArgumentException("Employee by this id not found: " + item.EmployeeId);
             var old = ctx.HourlyWageOrders.FirstOrDefault(order => order.Id == item.Id);
             var properties = item.GetType().GetProperties();
             foreach (var prop in properties)

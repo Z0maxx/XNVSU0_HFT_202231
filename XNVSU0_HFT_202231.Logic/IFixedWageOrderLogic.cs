@@ -10,5 +10,6 @@ namespace XNVSU0_HFT_202231.Logic
         FixedWageOrder Read(int id);
         IQueryable<FixedWageOrder> ReadAll();
         void Update(FixedWageOrder item);
+        public double? IncomeInMonth(int month);
     }
 }
