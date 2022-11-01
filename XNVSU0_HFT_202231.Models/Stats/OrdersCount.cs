@@ -2,7 +2,7 @@
 
 namespace XNVSU0_HFT_202231.Models.Stats
 {
-    public class OrdersCount : IStat
+    public class OrdersCount : Stat
     {
         [DisplayName("Number of fixed wage orders")]
         public int FixedWageOrderCount { get; set; }

@@ -2,7 +2,7 @@
 
 namespace XNVSU0_HFT_202231.Models.Stats
 {
-    public class EmployeeAverageHours : IStat
+    public class EmployeeAverageHours : Stat
     {
         [DisplayName("Employee name")]
         public string EmployeeName { get; set; }

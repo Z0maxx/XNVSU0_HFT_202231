@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace XNVSU0_HFT_202231.Models.Stats
 {
-    public class IncomeFromOrder : IStat
+    public class IncomeFromOrder : Stat
     {
         [DisplayName("Order time")]
         public DateTime? OrderDate { get; set; }

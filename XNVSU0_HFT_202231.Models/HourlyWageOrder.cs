@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace XNVSU0_HFT_202231.Models
 {
     [DisplayName("Hourly wage order")]
-    public class HourlyWageOrder : Order, IModel
+    public class HourlyWageOrder : Order
     {
         [Required(ErrorMessage = "Work hours is required")]
         [DisplayName("Work hours")]

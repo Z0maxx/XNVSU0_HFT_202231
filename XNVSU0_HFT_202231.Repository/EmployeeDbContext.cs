@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using XNVSU0_HFT_202231.Models;
-using System.Linq;
 
 namespace XNVSU0_HFT_202231.Repository
 {
@@ -32,26 +31,31 @@ namespace XNVSU0_HFT_202231.Repository
                 .HasOne(emp => emp.Job)
                 .WithMany(job => job.FixedWageEmployees)
                 .HasForeignKey(emp => emp.JobId)
+                .OnDelete(DeleteBehavior.SetNull)
             );
             modelBuilder.Entity<HourlyWageEmployee>(emp => emp
                 .HasOne(emp => emp.Job)
                 .WithMany(job => job.HourlyWageEmployees)
                 .HasForeignKey(emp => emp.JobId)
+                .OnDelete(DeleteBehavior.SetNull)
             );
             modelBuilder.Entity<FixedWageOrder>(order => order
                 .HasOne(order => order.EventType)
                 .WithMany(eventType => eventType.Orders)
                 .HasForeignKey(order => order.EventTypeId)
+                .OnDelete(DeleteBehavior.SetNull)
             );
             modelBuilder.Entity<FixedWageOrder>(order => order
                 .HasOne(order => order.Employee)
                 .WithMany(emp => emp.Orders)
                 .HasForeignKey(order => order.EmployeeId)
+                .OnDelete(DeleteBehavior.SetNull)
             );
             modelBuilder.Entity<HourlyWageOrder>(order => order
                 .HasOne(order => order.Employee)
                 .WithMany(emp => emp.Orders)
                 .HasForeignKey(order => order.EmployeeId)
+                .OnDelete(DeleteBehavior.SetNull)
             );
 
             modelBuilder.Entity<Job>().HasData(
@@ -238,7 +242,7 @@ namespace XNVSU0_HFT_202231.Repository
                 {
                     Id = 2,
                     OrderDate = DateTime.Parse("2022.10.24"),
-                    EmployeeId = 3,
+                    EmployeeId = 2,
                     EventTypeId = 1,
                     FirstName = "Áron",
                     LastName = "Kocsis",
@@ -249,7 +253,7 @@ namespace XNVSU0_HFT_202231.Repository
                 {
                     Id = 3,
                     OrderDate = DateTime.Parse("2022.11.02"),
-                    EmployeeId = 4,
+                    EmployeeId = 1,
                     EventTypeId = 2,
                     FirstName = "Bence",
                     LastName = "Festő",
@@ -304,7 +308,7 @@ namespace XNVSU0_HFT_202231.Repository
                 {
                     Id = 3,
                     OrderDate = DateTime.Parse("2022.10.14"),
-                    EmployeeId = 2,
+                    EmployeeId = 1,
                     Hours = 6,
                     FirstName = "Tibor",
                     LastName = "Kerti",

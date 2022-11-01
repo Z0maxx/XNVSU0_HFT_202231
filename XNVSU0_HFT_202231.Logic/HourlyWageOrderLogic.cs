@@ -10,25 +10,14 @@ using XNVSU0_HFT_202231.Repository;
 
 namespace XNVSU0_HFT_202231.Logic
 {
-    public class HourlyWageOrderLogic : IHourlyWageOrderLogic
+    public class HourlyWageOrderLogic : Logic<HourlyWageOrder>, IHourlyWageOrderLogic
     {
-        readonly IRepository<HourlyWageOrder> repository;
-        public HourlyWageOrderLogic(IRepository<HourlyWageOrder> repository)
+        public HourlyWageOrderLogic(IRepository<HourlyWageOrder> repository) : base(repository, new string[] { "Id", "FirstName", "LastName", "OrderDate", "EmailAddress", "EmployeeId", "Hours" })
         {
-            this.repository = repository;
         }
-        public void Create(HourlyWageOrder item)
+        public override void Create(HourlyWageOrder item)
         {
-            if (repository.Read(item.Id) != null) throw new ArgumentException("Order by this id already exists: " + item.Id);
-            PropertyInfo[] propInfos = item.GetType().GetProperties();
-            string[] propOrder = { "Id", "FirstName", "LastName", "OrderDate", "EmailAddress", "EmployeeId", "Hours" };
-            foreach (var prop in propOrder)
-            {
-                var propInfo = propInfos.First(propInfo => propInfo.Name == prop);
-                var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
-                Validator.ValidateValue(propInfo.GetValue(item), new ValidationContext(item), attributes);
-            }
-            repository.Create(item);
+            base.Create(item);
             if (item.Employee == null || item.Id == null) item = repository.ReadAll().Where(order => order.Equals(item)).First();
             if (item.Hours < item.Employee.MinHours || item.Hours > item.Employee.MaxHours)
             {
@@ -36,40 +25,15 @@ namespace XNVSU0_HFT_202231.Logic
                 throw new ArgumentException($"Hours must be between {item.Employee.MinHours} and {item.Employee.MaxHours}");
             }
         }
-
-        public void Delete(int id)
+        public override void Update(HourlyWageOrder item)
         {
-            Read(id);
-            repository.Delete(id);
-        }
-        public HourlyWageOrder Read(int id)
-        {
-            var result = repository.Read(id);
-            if (result == null) throw new ArgumentException("Order not found by this id: " + id);
-            return result;
-        }
-
-        public IQueryable<HourlyWageOrder> ReadAll()
-        {
-            return repository.ReadAll();
-        }
-
-        public void Update(HourlyWageOrder item)
-        {
-            if (item.Id == null) throw new ArgumentException("Id is required");
-            if (repository.Read(item.Id) == null) throw new ArgumentException("Order not found by this id: " + item.Id);
-            PropertyInfo[] propInfos = item.GetType().GetProperties();
-            string[] propOrder = { "Id", "FirstName", "LastName", "OrderDate", "EmailAddress", "EmployeeId", "Hours" };
             var old = repository.Read(item.Id);
             var oldCopy = new HourlyWageOrder();
-            foreach (var prop in propOrder)
+            foreach (var propInfo in item.GetType().GetProperties())
             {
-                var propInfo = propInfos.First(propInfo => propInfo.Name == prop);
                 propInfo.SetValue(oldCopy, propInfo.GetValue(old));
-                var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
-                Validator.ValidateValue(propInfo.GetValue(item), new ValidationContext(item), attributes);
             }
-            repository.Update(item);
+            base.Update(item);
             if (item.Employee == null || item.Id == null) item = repository.ReadAll().Where(order => order.Equals(item)).First();
             if (item.Hours < item.Employee.MinHours || item.Hours > item.Employee.MaxHours)
             {

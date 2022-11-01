@@ -5,13 +5,8 @@ using XNVSU0_HFT_202231.Models.Stats;
 
 namespace XNVSU0_HFT_202231.Logic
 {
-    public interface IFixedWageEmployeeLogic
+    public interface IFixedWageEmployeeLogic : ILogic<FixedWageEmployee>
     {
-        void Create(FixedWageEmployee item);
-        void Delete(int id);
-        FixedWageEmployee Read(int id);
-        IQueryable<FixedWageEmployee> ReadAll();
-        void Update(FixedWageEmployee item);
         public IEnumerable<EmployeeOrdersCount> MostPopular();
     }
 }

@@ -4,13 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XNVSU0_HFT_202231.Logic
+namespace XNVSU0_HFT_202231.Models.Stats
 {
-    class EmployeeLogic
+    public abstract class Stat
     {
-    }
-    public class Employee: Models.Employee
-    {
-
     }
 }

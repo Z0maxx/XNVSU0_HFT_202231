@@ -5,13 +5,8 @@ using XNVSU0_HFT_202231.Models.Stats;
 
 namespace XNVSU0_HFT_202231.Logic
 {
-    public interface IEventTypeLogic
+    public interface IEventTypeLogic : ILogic<EventType>
     {
-        void Create(EventType item);
-        void Delete(int id);
-        EventType Read(int id);
-        IQueryable<EventType> ReadAll();
-        void Update(EventType item);
         public IEnumerable<IncomeFromJob> IncomeByJobs(int eventTypeId);
     }
 }

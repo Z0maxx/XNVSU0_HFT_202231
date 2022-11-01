@@ -25,7 +25,7 @@ namespace XNVSU0_HFT_202231.Client
             MethodsMenu = new ConsoleMenu(args, level: 1)
                 .Configure(config =>
                 {
-                    config.Title = $"[Stat]\n";
+                    config.Title = $"[Stats]\n";
                     config.EnableWriteTitle = true;
                 })
                 .Add("Income from event by jobs", () => IncomeFromEventByJobs())
@@ -122,7 +122,7 @@ namespace XNVSU0_HFT_202231.Client
             DisplayProperties(item);
             Continue();
         }
-        void DisplayProperties(IStat item, string level = "")
+        void DisplayProperties(Stat item, string level = "")
         {
             foreach (var prop in item.GetType().GetProperties())
             {
@@ -135,7 +135,7 @@ namespace XNVSU0_HFT_202231.Client
                 {
                     Console.WriteLine($"{level}{GetDisplayName(prop)}:");
                     string newLevel = level + "    ";
-                    DisplayProperties(propValue as IStat, newLevel);
+                    DisplayProperties(propValue as Stat, newLevel);
                 }
             }
         }
@@ -147,7 +147,7 @@ namespace XNVSU0_HFT_202231.Client
         static void DisplayOperation([CallerMemberName] string callerName = "")
         {
             Console.Clear();
-            Console.WriteLine($"[Stat {callerName}]\n");
+            Console.WriteLine($"[Stats {callerName}]\n");
         }
         static string GetDisplayName(PropertyInfo prop)
         {
@@ -160,13 +160,13 @@ namespace XNVSU0_HFT_202231.Client
             DisplayOperation(callerName);
             Console.WriteLine("Processing");
         }
-        static int GetOption(string prop, IEnumerable<IModel> options, [CallerMemberName] string callerName = "")
+        static int GetOption(string prop, IEnumerable<Model> options, [CallerMemberName] string callerName = "")
         {
             int optionId = 0;
             var menu = new ConsoleMenu();
             menu.Configure(config =>
             {
-                config.Title = $"[Stat {callerName}]\n\nSelect a(n) {prop}\n{prop} options"; ;
+                config.Title = $"[Stats {callerName}]\n\nSelect a(n) {prop}\n{prop} options";
                 config.EnableWriteTitle = true;
             });
             foreach (var option in options)

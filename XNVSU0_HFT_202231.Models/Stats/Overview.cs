@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace XNVSU0_HFT_202231.Models.Stats
 {
-    public class Overview : IStat
+    public class Overview : Stat
     {
         [DisplayName("Number of overall orders")]
         public int OrdersCount { get; set; }

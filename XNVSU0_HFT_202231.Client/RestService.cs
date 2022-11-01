@@ -51,7 +51,6 @@ namespace XNVSU0_HFT_202231.Client
             {
                 throw new ArgumentException("Endpoint is not available!");
             }
-
         }
 
         public List<T> GetList<T>(string endpoint)
@@ -181,7 +180,6 @@ namespace XNVSU0_HFT_202231.Client
         public int Status { get; set; }
         public string TraceId { get; set; }
         public Dictionary<string, string[]> Errors { get; set; }
-
     }
     public class RestExceptionInfo2
     {

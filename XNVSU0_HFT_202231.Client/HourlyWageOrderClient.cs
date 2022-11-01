@@ -13,7 +13,7 @@ namespace XNVSU0_HFT_202231.Client
             optionsDict.Add(
                 "Employee",
                 new Dictionary<string, object>() {
-                    { "get", new RestGetDelegate<IModel>(rest.GetList<HourlyWageEmployee>) },
+                    { "get", new RestGetDelegate<Model>(rest.GetList<HourlyWageEmployee>) },
                     { "endpoint", "hourlywageemployee" }
                 }
             );
@@ -21,7 +21,7 @@ namespace XNVSU0_HFT_202231.Client
                 "EventType",
                 new Dictionary<string, object>()
                 {
-                    { "get", new RestGetDelegate<IModel>(rest.GetList<EventType>) },
+                    { "get", new RestGetDelegate<Model>(rest.GetList<EventType>) },
                     {"endpoint", "eventtype" }
                 }
             );

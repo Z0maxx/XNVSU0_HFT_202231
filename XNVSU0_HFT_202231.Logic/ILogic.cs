@@ -1,14 +1,14 @@
 ﻿using System.Linq;
 using XNVSU0_HFT_202231.Models;
 
-namespace XNVSU0_HFT_202231.Repository
+namespace XNVSU0_HFT_202231.Logic
 {
-    public interface IRepository<T> where T : Model
+    public interface ILogic<T> where T : Model
     {
-        IQueryable<T> ReadAll();
-        T Read(int? id);
         void Create(T item);
         void Delete(int id);
+        T Read(int id);
+        IQueryable<T> ReadAll();
         void Update(T item);
     }
 }

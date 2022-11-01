@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 namespace XNVSU0_HFT_202231.Models
 {
     [DisplayName("Fixed wage employee")]
-    public class FixedWageEmployee : Employee, IModel
+    public class FixedWageEmployee : Employee
     {
         [Required(ErrorMessage = "Work hours is required")]
         [Range(1, 12, ErrorMessage = "Work hours must be between 1 and 12")]

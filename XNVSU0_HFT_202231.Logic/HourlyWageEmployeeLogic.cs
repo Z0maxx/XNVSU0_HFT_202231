@@ -10,58 +10,20 @@ using XNVSU0_HFT_202231.Repository;
 
 namespace XNVSU0_HFT_202231.Logic
 {
-    public class HourlyWageEmployeeLogic : IHourlyWageEmployeeLogic
+    public class HourlyWageEmployeeLogic : Logic<HourlyWageEmployee>, IHourlyWageEmployeeLogic
     {
-        readonly IRepository<HourlyWageEmployee> repository;
-        public HourlyWageEmployeeLogic(IRepository<HourlyWageEmployee> repository)
+        public HourlyWageEmployeeLogic(IRepository<HourlyWageEmployee> repository) : base(repository, new string[] { "Id", "FirstName", "LastName", "Wage", "HireDate", "EmailAddress", "MinHours", "MaxHours" })
         {
-            this.repository = repository;
         }
-        public void Create(HourlyWageEmployee item)
+        public override void Create(HourlyWageEmployee item)
         {
-            if (repository.Read(item.Id) != null) throw new ArgumentException("Employee by this id already exists: " + item.Id);
-            PropertyInfo[] propInfos = item.GetType().GetProperties();
-            string[] propOrder = { "Id", "FirstName", "LastName", "Wage", "HireDate", "EmailAddress", "MinHours", "MaxHours" };
-            foreach (var prop in propOrder)
-            {
-                var propInfo = propInfos.First(propInfo => propInfo.Name == prop);
-                var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
-                Validator.ValidateValue(propInfo.GetValue(item), new ValidationContext(item), attributes);
-            }
             if (item.MinHours >= item.MaxHours) throw new ArgumentException("Minimum hours must be less than maximum hours");
-            repository.Create(item);
+            base.Create(item);
         }
-
-        public void Delete(int id)
+        public override void Update(HourlyWageEmployee item)
         {
-            Read(id);
-            repository.Delete(id);
-        }
-        public HourlyWageEmployee Read(int id)
-        {
-            var result = repository.Read(id);
-            if (result == null) throw new ArgumentException("Employee not found by this id: " + id);
-            return result;
-        }
-
-        public IQueryable<HourlyWageEmployee> ReadAll()
-        {
-            return repository.ReadAll();
-        }
-
-        public void Update(HourlyWageEmployee item)
-        {
-            if (item.Id == null) throw new ArgumentException("Id is required");
-            if (repository.Read(item.Id) == null) throw new ArgumentException("Employee not found by this id: " + item.Id);
-            PropertyInfo[] propInfos = item.GetType().GetProperties();
-            string[] propOrder = { "Id", "FirstName", "LastName", "Wage", "HireDate", "EmailAddress", "MinHours", "MaxHours" };
-            foreach (var prop in propOrder)
-            {
-                var propInfo = propInfos.First(propInfo => propInfo.Name == prop);
-                var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
-                Validator.ValidateValue(propInfo.GetValue(item), new ValidationContext(item), attributes);
-            }
-            repository.Update(item);
+            if (item.MinHours >= item.MaxHours) throw new ArgumentException("Minimum hours must be less than maximum hours");
+            base.Update(item);
         }
         public IEnumerable<EmployeeAverageHours> AverageHours()
         {

@@ -10,13 +10,13 @@ using System.Collections.Generic;
 
 namespace XNVSU0_HFT_202231.Client
 {
-    abstract class Client<T> : IClient where T : class, new()
+    abstract class Client<T> : IClient where T : Model, new()
     {
         protected readonly RestService rest;
         protected readonly string[] args;
         protected readonly string endpoint;
         protected readonly string[] propOrder;
-        protected delegate IEnumerable<IModel> RestGetDelegate<IModel>(string endpoint);
+        protected delegate IEnumerable<S> RestGetDelegate<S>(string endpoint) where S : Model;
         protected readonly Dictionary<string, Dictionary<string, object>> optionsDict;
         protected readonly ConsoleMenu MethodsMenu;
         public Client(RestService rest, string[] args, string[] propOrder)
@@ -51,7 +51,7 @@ namespace XNVSU0_HFT_202231.Client
                 {
                     var item = rest.Get<T>(id, endpoint);
                     DisplayOperation();
-                    DisplayProperties(item as IModel);
+                    DisplayProperties(item);
                     Console.WriteLine();
                 }
                 catch (Exception e)
@@ -70,7 +70,7 @@ namespace XNVSU0_HFT_202231.Client
             DisplayOperation();
             foreach (var item in items)
             {
-                DisplayProperties(item as IModel);
+                DisplayProperties(item);
                 Console.WriteLine();
             }
             Continue();
@@ -168,7 +168,7 @@ namespace XNVSU0_HFT_202231.Client
             }
             return newItem;
         }
-        void DisplayProperties(IModel item, string level = "")
+        void DisplayProperties(Model item, string level = "")
         {
             foreach (var prop in item.GetType().GetProperties())
             {
@@ -181,7 +181,7 @@ namespace XNVSU0_HFT_202231.Client
                 {
                     Console.WriteLine($"{level}{GetDisplayName(prop)}:");
                     string newLevel = level + "    ";
-                    DisplayProperties(propValue as IModel, newLevel);
+                    DisplayProperties(propValue as Model, newLevel);
                 }
             }
         }
@@ -230,7 +230,7 @@ namespace XNVSU0_HFT_202231.Client
                 config.EnableWriteTitle = true;
             });
             var restDict = optionsDict[prop];
-            var options = (restDict["get"] as RestGetDelegate<IModel>).Invoke((string)restDict["endpoint"]);
+            var options = (restDict["get"] as RestGetDelegate<Model>).Invoke((string)restDict["endpoint"]);
             foreach (var option in options)
             {
                 int id = 0;

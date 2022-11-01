@@ -5,12 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace XNVSU0_HFT_202231.Models
 {
-    public abstract class Employee : IModel
+    public abstract class Employee : Model
     {
-        [Key]
-        [Range(1, int.MaxValue, ErrorMessage = "Id must be greater than 0")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? Id { get; set; }
         [Required(ErrorMessage = "First name is required")]
         [StringLength(30, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 30 characters")]
         [DisplayName("First name")]

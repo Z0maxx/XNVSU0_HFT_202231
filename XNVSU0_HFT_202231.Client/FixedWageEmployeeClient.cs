@@ -14,7 +14,7 @@ namespace XNVSU0_HFT_202231.Client
                 "Job",
                 new Dictionary<string, object>()
                 {
-                    { "get", new RestGetDelegate<IModel>(rest.GetList<Job>) },
+                    { "get", new RestGetDelegate<Model>(rest.GetList<Job>) },
                     { "endpoint", "job" }
                 }
             );
