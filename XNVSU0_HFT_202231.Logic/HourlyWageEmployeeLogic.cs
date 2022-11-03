@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Reflection;
 using XNVSU0_HFT_202231.Models;
 using XNVSU0_HFT_202231.Models.Stats;
 using XNVSU0_HFT_202231.Repository;
@@ -12,16 +9,20 @@ namespace XNVSU0_HFT_202231.Logic
 {
     public class HourlyWageEmployeeLogic : Logic<HourlyWageEmployee>, IHourlyWageEmployeeLogic
     {
-        public HourlyWageEmployeeLogic(IRepository<HourlyWageEmployee> repository) : base(repository, new string[] { "Id", "FirstName", "LastName", "Wage", "HireDate", "EmailAddress", "MinHours", "MaxHours" })
+        readonly IRepository<Job> jobRepository;
+        public HourlyWageEmployeeLogic(IRepository<HourlyWageEmployee> repository, IRepository<Job> jobRepository) : base(repository)
         {
+            this.jobRepository = jobRepository;
         }
         public override void Create(HourlyWageEmployee item)
         {
+            if (jobRepository.Read(item.JobId) == null) throw new ArgumentException($"{GetDisplayName(typeof(Job))} by this id not found: {item.JobId}");
             if (item.MinHours >= item.MaxHours) throw new ArgumentException("Minimum hours must be less than maximum hours");
             base.Create(item);
         }
         public override void Update(HourlyWageEmployee item)
         {
+            if (jobRepository.Read(item.JobId) == null) throw new ArgumentException($"{GetDisplayName(typeof(Job))} by this id not found: {item.JobId}");
             if (item.MinHours >= item.MaxHours) throw new ArgumentException("Minimum hours must be less than maximum hours");
             base.Update(item);
         }

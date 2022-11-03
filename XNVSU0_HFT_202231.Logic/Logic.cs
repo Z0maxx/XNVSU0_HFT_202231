@@ -11,19 +11,15 @@ namespace XNVSU0_HFT_202231.Logic
     public abstract class Logic<T> : ILogic<T> where T: Model
     {
         readonly protected IRepository<T> repository;
-        readonly string[] propOrder;
-        public Logic(IRepository<T> repository, string[] propOrder)
+        public Logic(IRepository<T> repository)
         {
             this.repository = repository;
-            this.propOrder = propOrder;
         }
         public virtual void Create(T item)
         {
             if (repository.Read(item.Id) != null) throw new ArgumentException($"{GetDisplayName(typeof(T))} by this id already exists: {item.Id}");
-            PropertyInfo[] propInfos = item.GetType().GetProperties();
-            foreach (var prop in propOrder)
+            foreach (var propInfo in item.GetType().GetProperties())
             {
-                var propInfo = propInfos.First(propInfo => propInfo.Name == prop);
                 var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
                 Validator.ValidateValue(propInfo.GetValue(item), new ValidationContext(item), attributes);
             }
@@ -50,16 +46,14 @@ namespace XNVSU0_HFT_202231.Logic
         {
             if (item.Id == null) throw new ArgumentException("Id is required");
             if (repository.Read(item.Id) == null) throw new ArgumentException($"{GetDisplayName(typeof(T))} not found by this id: {item.Id}");
-            PropertyInfo[] propInfos = item.GetType().GetProperties();
-            foreach (var prop in propOrder)
+            foreach (var propInfo in item.GetType().GetProperties())
             {
-                var propInfo = propInfos.First(propInfo => propInfo.Name == prop);
                 var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
                 Validator.ValidateValue(propInfo.GetValue(item), new ValidationContext(item), attributes);
             }
             repository.Update(item);
         }
-        static string GetDisplayName(Type type)
+        static protected string GetDisplayName(Type type)
         {
             var attribute = type.GetCustomAttribute<DisplayNameAttribute>();
             if (attribute == null) return type.Name;

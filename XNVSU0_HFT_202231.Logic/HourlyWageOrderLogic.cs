@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Reflection;
 using XNVSU0_HFT_202231.Models;
 using XNVSU0_HFT_202231.Models.Stats;
 using XNVSU0_HFT_202231.Repository;
@@ -12,34 +9,38 @@ namespace XNVSU0_HFT_202231.Logic
 {
     public class HourlyWageOrderLogic : Logic<HourlyWageOrder>, IHourlyWageOrderLogic
     {
-        public HourlyWageOrderLogic(IRepository<HourlyWageOrder> repository) : base(repository, new string[] { "Id", "FirstName", "LastName", "OrderDate", "EmailAddress", "EmployeeId", "Hours" })
+        readonly IRepository<HourlyWageEmployee> employeeRepository;
+        public HourlyWageOrderLogic(IRepository<HourlyWageOrder> repository, IRepository<HourlyWageEmployee> employeeRepository) : base(repository)
         {
+            this.employeeRepository = employeeRepository;
         }
         public override void Create(HourlyWageOrder item)
         {
-            base.Create(item);
-            if (item.Employee == null || item.Id == null) item = repository.ReadAll().Where(order => order.Equals(item)).First();
-            if (item.Hours < item.Employee.MinHours || item.Hours > item.Employee.MaxHours)
+            var employee = employeeRepository.Read(item.EmployeeId);
+            if (employee == null) throw new ArgumentException($"{GetDisplayName(typeof(HourlyWageEmployee))} by this id not found: {item.EmployeeId}");
+            if (repository.ReadAll().FirstOrDefault(o => o.EmployeeId == item.EmployeeId && o.OrderDate.Value.Date == item.OrderDate.Value.Date && o.Id != item.Id) != null)
             {
-                repository.Delete((int)item.Id);
-                throw new ArgumentException($"Hours must be between {item.Employee.MinHours} and {item.Employee.MaxHours}");
+                throw new ArgumentException($"There is already an order for {employee.FirstName} {employee.LastName} on {item.OrderDate.Value.ToShortDateString()}");
             }
+            if (item.Hours < employee.MinHours || item.Hours > employee.MaxHours)
+            {
+                throw new ArgumentException($"Work hours must be between {employee.MinHours} and {employee.MaxHours} for {employee.FirstName} {employee.LastName}");
+            }
+            base.Create(item);
         }
         public override void Update(HourlyWageOrder item)
         {
-            var old = repository.Read(item.Id);
-            var oldCopy = new HourlyWageOrder();
-            foreach (var propInfo in item.GetType().GetProperties())
+            var employee = employeeRepository.Read(item.EmployeeId);
+            if (employee == null) throw new ArgumentException($"{GetDisplayName(typeof(HourlyWageEmployee))} by this id not found: {item.EmployeeId}");
+            if (repository.ReadAll().FirstOrDefault(o => o.EmployeeId == item.EmployeeId && o.OrderDate.Value.Date == item.OrderDate.Value.Date && o.Id != item.Id) != null)
             {
-                propInfo.SetValue(oldCopy, propInfo.GetValue(old));
+                throw new ArgumentException($"There is already an order for {employee.FirstName} {employee.LastName} on {item.OrderDate.Value.ToShortDateString()}");
             }
-            base.Update(item);
-            if (item.Employee == null || item.Id == null) item = repository.ReadAll().Where(order => order.Equals(item)).First();
             if (item.Hours < item.Employee.MinHours || item.Hours > item.Employee.MaxHours)
             {
-                repository.Update(oldCopy);
-                throw new ArgumentException($"Hours must be between {item.Employee.MinHours} and {item.Employee.MaxHours}");
+                throw new ArgumentException($"Work hours must be between {employee.MinHours} and {employee.MaxHours} for {employee.FirstName} {employee.LastName}");
             }
+            base.Update(item);
         }
         public IEnumerable<IncomeFromOrder> Overview()
         {

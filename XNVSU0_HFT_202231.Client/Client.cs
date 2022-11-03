@@ -220,7 +220,7 @@ namespace XNVSU0_HFT_202231.Client
             DisplayOperation(callerName);
             Console.WriteLine("Processing");
         }
-        void SetOption(string prop, PropertyInfo propInfo, T newItem, [CallerMemberName] string callerName = "")
+        void SetOption(string prop, PropertyInfo foreignKey, T newItem, [CallerMemberName] string callerName = "")
         {
             prop = prop.Substring(0, prop.Length - 2);
             var menu = new ConsoleMenu();
@@ -241,7 +241,7 @@ namespace XNVSU0_HFT_202231.Client
                         id = (int)optionPropInfo.GetValue(option);
                     }
                 }
-                menu.Add(option.ToString(), (thisMenu) => { propInfo.SetValue(newItem, id); thisMenu.CloseMenu(); });
+                menu.Add(option.ToString(), (thisMenu) => { foreignKey.SetValue(newItem, id); thisMenu.CloseMenu(); });
             }
             menu.Show();
         }

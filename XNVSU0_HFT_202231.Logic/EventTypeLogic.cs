@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using XNVSU0_HFT_202231.Models;
 using XNVSU0_HFT_202231.Models.Stats;
 using XNVSU0_HFT_202231.Repository;
@@ -11,7 +8,7 @@ namespace XNVSU0_HFT_202231.Logic
 {
     public class EventTypeLogic : Logic<EventType>, IEventTypeLogic
     {
-        public EventTypeLogic(IRepository<EventType> repository) : base(repository, new string[] { "Id", "Name" })
+        public EventTypeLogic(IRepository<EventType> repository) : base(repository)
         {
         }
         public IEnumerable<IncomeFromJob> IncomeByJobs(int eventTypeId)

@@ -1,8 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection;
+﻿using System.Linq;
 using XNVSU0_HFT_202231.Models;
 using XNVSU0_HFT_202231.Models.Stats;
 using XNVSU0_HFT_202231.Repository;
@@ -11,7 +7,7 @@ namespace XNVSU0_HFT_202231.Logic
 {
     public class JobLogic : Logic<Job>, IJobLogic
     {
-        public JobLogic(IRepository<Job> repository) : base(repository, new string[] { "Id", "Name" })
+        public JobLogic(IRepository<Job> repository) : base(repository)
         {
         }
         public OrdersCount OrdersCount(int jobId)

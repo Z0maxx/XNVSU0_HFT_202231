@@ -8,7 +8,7 @@ namespace XNVSU0_HFT_202231.Client
     class HourlyWageEmployeeClient : Client<HourlyWageEmployee>, IClient
     {
         public HourlyWageEmployeeClient(RestService rest, string[] args)
-            : base(rest, args, new string[] { "JobId", "Id", "FirstName", "LastName", "Wage", "HireDate", "EmailAddress", "PhoneNumber", "MinHours", "MaxHours" })
+            : base(rest, args, new string[] { "Id", "FirstName", "LastName", "Wage", "HireDate", "EmailAddress", "PhoneNumber", "MinHours", "MaxHours", "JobId" })
         {
             optionsDict.Add(
                 "Job",
