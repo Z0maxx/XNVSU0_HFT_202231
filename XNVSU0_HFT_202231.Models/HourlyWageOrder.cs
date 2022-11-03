@@ -22,7 +22,7 @@ namespace XNVSU0_HFT_202231.Models
         public override bool Equals(object obj)
         {
             var other = obj as HourlyWageOrder;
-            return OrderDate == other.OrderDate && FirstName == other.FirstName && LastName == other.LastName && EmailAddress == other.EmailAddress;
+            return OrderDate == other.OrderDate && FirstName == other.FirstName && LastName == other.LastName && EmailAddress == other.EmailAddress && EmployeeId == other.EmployeeId;
         }
         public override int GetHashCode()
         {
