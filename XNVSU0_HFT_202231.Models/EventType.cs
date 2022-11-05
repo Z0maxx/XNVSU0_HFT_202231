@@ -27,7 +27,7 @@ namespace XNVSU0_HFT_202231.Models
         }
         public override bool Equals(object obj)
         {
-            var other = obj as Job;
+            if (obj is not Job other) return false;
             return Name == other.Name;
         }
         public override int GetHashCode()

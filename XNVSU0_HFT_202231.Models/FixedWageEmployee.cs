@@ -29,8 +29,8 @@ namespace XNVSU0_HFT_202231.Models
         }
         public override bool Equals(object obj)
         {
-            var other = obj as FixedWageEmployee;
-            return FirstName == other.FirstName && LastName == other.LastName && PhoneNumber == other.PhoneNumber;
+            if (obj is not FixedWageEmployee other) return false;
+            return FirstName == other.FirstName && LastName == other.LastName && EmailAddress == other.EmailAddress;
         }
         public override int GetHashCode()
         {

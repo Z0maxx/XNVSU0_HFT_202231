@@ -19,6 +19,7 @@ namespace XNVSU0_HFT_202231.Client
         protected delegate IEnumerable<S> RestGetDelegate<S>(string endpoint) where S : Model;
         protected readonly Dictionary<string, Dictionary<string, object>> optionsDict;
         protected readonly ConsoleMenu MethodsMenu;
+        protected static readonly string modelName = GetDisplayName(typeof(T));
         public Client(RestService rest, string[] args, string[] propOrder)
         {
             this.rest = rest;
@@ -29,12 +30,12 @@ namespace XNVSU0_HFT_202231.Client
             MethodsMenu = new ConsoleMenu(args, level: 1)
                 .Configure(config =>
                  {
-                     config.Title = $"[{GetDisplayName(typeof(T))}]\n";
+                     config.Title = $"[{modelName}]\n";
                      config.EnableWriteTitle = true;
                  })
                 .Add("Create", () => Create())
                 .Add("Read", () => Read())
-                .Add("ReadAll", () => ReadAll())
+                .Add("Read all", () => ReadAll())
                 .Add("Update", () => Update())
                 .Add("Delete", () => Delete())
                 .Add("Exit", ConsoleMenu.Close);
@@ -93,12 +94,13 @@ namespace XNVSU0_HFT_202231.Client
         {
             try
             {
-                var newItem = GetNewItem(requireId: true);
+                var newItem = GetNewItem(update: true);
                 DisplayProcessing();
                 DisplayResult(rest.Put(newItem, endpoint));
             }
             catch (ArgumentException e)
             {
+                DisplayOperation();
                 Console.WriteLine(e.Message);
             }
             Continue();
@@ -110,7 +112,7 @@ namespace XNVSU0_HFT_202231.Client
             string input = Console.ReadLine();
             if (!int.TryParse(input, out int id))
             {
-                Console.WriteLine($"This is not a number");
+                Console.WriteLine($"This is not a number: {input}");
                 Console.ReadLine();
                 return;
             }
@@ -118,51 +120,50 @@ namespace XNVSU0_HFT_202231.Client
             DisplayResult(rest.Delete(id, endpoint));
             Continue();
         }
-        public T GetNewItem(bool requireId = false, [CallerMemberName] string callerName = "")
+        public T GetNewItem(bool update = false, [CallerMemberName] string callerName = "")
         {
             T newItem = new();
             var propInfos = newItem.GetType().GetProperties();
-            foreach (var prop in propOrder)
+            if (update)
             {
-                var propInfo = propInfos.First(p => p.Name == prop);
-                if (propInfo.GetAccessors().FirstOrDefault(a => a.IsVirtual) == null)
+                DisplayOperation(callerName);
+                Console.Write("Enter id: ");
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out int id))
                 {
-                    DisplayOperation(callerName);
-                    if (prop != "Id" && prop.Substring(prop.Length - 2, 2) == "Id")
+                    newItem = rest.Get<T>(id, endpoint);
+                    var updateMenu = new ConsoleMenu(args, level: 2)
+                        .Configure(config =>
+                        {
+                            config.Title = $"[{modelName} {callerName}]\n\nSelect a property of {modelName} to update";
+                            config.EnableWriteTitle = true;
+                        });
+                    foreach (var prop in propOrder)
                     {
-                        SetOption(prop, propInfo, newItem, callerName);
+                        var propInfo = propInfos.First(p => p.Name == prop);
+                        if (propInfo.GetAccessors().FirstOrDefault(a => a.IsVirtual) == null)
+                        {
+                            if (prop != "Id" && prop.Contains("Id"))
+                            {
+                                var navProp = propInfos.First(p => p.Name == prop.Substring(0, prop.Length - 2));
+                                updateMenu.Add($"{GetDisplayName(navProp)}", () => SetPropValue(newItem, propInfo, callerName, update, navProp));
+                            }
+                            else updateMenu.Add($"{GetDisplayName(propInfo)}", () => SetPropValue(newItem, propInfo, callerName, update));
+                        }
                     }
-                    else
+                    updateMenu.Add("Exit", ConsoleMenu.Close);
+                    updateMenu.Show();
+                }
+                else throw new ArgumentException($"This is not a number: {input}");
+            }
+            else
+            {
+                foreach (var prop in propOrder)
+                {
+                    var propInfo = propInfos.First(p => p.Name == prop);
+                    if (propInfo.GetAccessors().FirstOrDefault(a => a.IsVirtual) == null)
                     {
-                        var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
-                        bool required = true;
-                        if (requireId && propInfo.Name == "Id")
-                        {
-                            Console.WriteLine("Id is required");
-                        }
-                        else if (attributes.FirstOrDefault(a => a is RequiredAttribute) == null)
-                        {
-                            required = false;
-                            Console.WriteLine($"{GetDisplayName(propInfo)} is not required");
-                        }
-                        foreach (var attribute in attributes)
-                        {
-                            Console.WriteLine(attribute.ErrorMessage);
-                        }
-                        Console.Write($"Enter {GetDisplayName(propInfo)}: ");
-                        string input = Console.ReadLine();
-                        if (input == "" && required) throw new ArgumentException("Incorrect input value");
-                        if (input != "")
-                        {
-                            try
-                            {
-                                propInfo.SetValue(newItem, TypeDescriptor.GetConverter(propInfo.PropertyType).ConvertFromString(input));
-                            }
-                            catch (ArgumentException)
-                            {
-                                throw new ArgumentException("Incorrect input value");
-                            }
-                        }
+                        SetPropValue(newItem, propInfo, callerName);
                     }
                 }
             }
@@ -173,13 +174,14 @@ namespace XNVSU0_HFT_202231.Client
             foreach (var prop in item.GetType().GetProperties())
             {
                 var propValue = prop.GetValue(item);
+                var propName = GetDisplayName(prop);
                 if (prop.GetAccessors().FirstOrDefault(a => a.IsVirtual) == null)
                 {
-                    Console.WriteLine($"{level}{GetDisplayName(prop)}: {propValue}");
+                    Console.WriteLine($"{level}{propName}: {propValue}");
                 }
                 else if (propValue != null)
                 {
-                    Console.WriteLine($"{level}{GetDisplayName(prop)}:");
+                    Console.WriteLine($"{level}{propName}:");
                     string newLevel = level + "    ";
                     DisplayProperties(propValue as Model, newLevel);
                 }
@@ -193,7 +195,7 @@ namespace XNVSU0_HFT_202231.Client
         static void DisplayOperation([CallerMemberName] string callerName = "")
         {
             Console.Clear();
-            Console.WriteLine($"[{GetDisplayName(typeof(T))} {callerName}]\n");
+            Console.WriteLine($"[{modelName} {callerName}]\n");
         }
         static void DisplayResult(Result result, [CallerMemberName] string callerName = "")
         {
@@ -220,16 +222,75 @@ namespace XNVSU0_HFT_202231.Client
             DisplayOperation(callerName);
             Console.WriteLine("Processing");
         }
-        void SetOption(string prop, PropertyInfo foreignKey, T newItem, [CallerMemberName] string callerName = "")
+        void SetPropValue(T newItem, PropertyInfo propInfo, [CallerMemberName] string callerName = "", bool update = false, PropertyInfo navProp = null)
         {
-            prop = prop.Substring(0, prop.Length - 2);
+            DisplayOperation(callerName);
+            
+            if (navProp != null)
+            {
+                if (update) SetOption(navProp, propInfo, newItem, callerName, update);
+                else SetOption(navProp, propInfo, newItem, callerName);
+            }
+            else
+            {
+                var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
+                var propName = GetDisplayName(propInfo);
+                if (update) attributes = attributes.Where(a => a is not RequiredAttribute);
+                bool required = true;
+                if (!update && attributes.FirstOrDefault(a => a is RequiredAttribute) == null)
+                {
+                    required = false;
+                    Console.WriteLine($"{propName} is not required");
+                }
+                foreach (var attribute in attributes)
+                {
+                    Console.WriteLine(attribute.ErrorMessage);
+                }
+                if (update) Console.WriteLine($"{propName} is currently: {propInfo.GetValue(newItem)}");
+                Console.Write($"Enter {propName}: ");
+                string input = Console.ReadLine();
+                if (!update && input == "" && required) throw new ArgumentException("Incorrect input value");
+                if (input != "")
+                {
+                    try
+                    {
+                        propInfo.SetValue(newItem, TypeDescriptor.GetConverter(propInfo.PropertyType).ConvertFromString(input));
+                    }
+                    catch (ArgumentException)
+                    {
+                        if (update)
+                        {
+                            Console.WriteLine("Incorrect input value");
+                            Continue();
+                        }
+                        else throw new ArgumentException("Incorrect input value");
+                    }
+                }
+            }
+        }
+        void SetOption(PropertyInfo navProp, PropertyInfo foreignKey, T newItem, [CallerMemberName] string callerName = "", bool update = false)
+        {
+            string navPropName = GetDisplayName(navProp);
             var menu = new ConsoleMenu();
+            if (update)
+            {
+                menu.Configure(config =>
+                {
+                    config.Title = $"[{modelName} {callerName}]\n\n{navPropName} is currently: {navProp.GetValue(newItem)}\n{navPropName} options";
+                });
+            }
+            else
+            {
+                menu.Configure(config =>
+                {
+                    config.Title = $"[{modelName} {callerName}]\n\n{navPropName} is required\n{navPropName} options";
+                });
+            }
             menu.Configure(config =>
             {
-                config.Title = $"[{GetDisplayName(typeof(T))} {callerName}]\n\n{prop} is required\n{prop} options"; ;
                 config.EnableWriteTitle = true;
             });
-            var restDict = optionsDict[prop];
+            var restDict = optionsDict[navProp.Name];
             var options = (restDict["get"] as RestGetDelegate<Model>).Invoke((string)restDict["endpoint"]);
             foreach (var option in options)
             {
@@ -241,8 +302,9 @@ namespace XNVSU0_HFT_202231.Client
                         id = (int)optionPropInfo.GetValue(option);
                     }
                 }
-                menu.Add(option.ToString(), (thisMenu) => { foreignKey.SetValue(newItem, id); thisMenu.CloseMenu(); });
+                menu.Add(option.ToString(), (thisMenu) => { foreignKey.SetValue(newItem, id); navProp.SetValue(newItem, option); thisMenu.CloseMenu(); });
             }
+            if (update) menu.Add("Exit", ConsoleMenu.Close);
             menu.Show();
         }
         public void ShowMenu()

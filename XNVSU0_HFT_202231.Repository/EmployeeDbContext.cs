@@ -286,7 +286,7 @@ namespace XNVSU0_HFT_202231.Repository
                 new HourlyWageOrder()
                 {
                     Id = 1,
-                    OrderDate = DateTime.Parse("2022.10.14"),
+                    OrderDate = DateTime.Parse("2022.10.12"),
                     EmployeeId = 1,
                     Hours = 3,
                     FirstName = "Aladár",
