@@ -4,6 +4,6 @@ namespace XNVSU0_HFT_202231.Logic
 {
     public interface IFixedWageOrderLogic : ILogic<FixedWageOrder>
     {
-        public double? IncomeInMonth(int month);
+        public double? IncomeInYear(int year);
     }
 }

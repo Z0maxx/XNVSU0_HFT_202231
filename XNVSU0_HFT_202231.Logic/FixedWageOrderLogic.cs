@@ -19,7 +19,6 @@ namespace XNVSU0_HFT_202231.Logic
             if (eventTypeRepository.Read(item.EventTypeId) == null) throw new ArgumentException($"{GetDisplayName(typeof(EventType))} by this id not found: {item.EventTypeId}");
             var employee = employeeRepository.Read(item.EmployeeId);
             if (employee == null) throw new ArgumentException($"{GetDisplayName(typeof(FixedWageEmployee))} by this id not found: {item.EmployeeId}");
-            ;
             if (repository.ReadAll().FirstOrDefault(o => o.EmployeeId == item.EmployeeId && o.OrderDate.Value.Date == item.OrderDate.Value.Date) != null)
             {
                 throw new ArgumentException($"There is already an order for {employee.FirstName} {employee.LastName} on {item.OrderDate.Value.ToShortDateString()}");
@@ -37,9 +36,10 @@ namespace XNVSU0_HFT_202231.Logic
             }
             base.Update(item);
         }
-        public double? IncomeInMonth(int month)
+        public double? IncomeInYear(int year)
         {
-            return repository.ReadAll().Where(o => o.OrderDate.Value.Month == month).Sum(o => o.Employee.Wage);
+            var a = repository.ReadAll().Where(o => o.OrderDate.Value.Year == year);
+            return repository.ReadAll().Where(o => o.OrderDate.Value.Year == year).Sum(o => o.Employee.Wage);
         }
     }
 }

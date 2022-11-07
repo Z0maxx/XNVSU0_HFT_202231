@@ -28,7 +28,7 @@ namespace XNVSU0_HFT_202231.Logic
         }
         public IEnumerable<EmployeeAverageHours> AverageHours()
         {
-            var averageHours = repository.ReadAll().Select(e => new EmployeeAverageHours()
+            var averageHours = repository.ReadAll().Where(e => e.Orders.Count > 0).Select(e => new EmployeeAverageHours()
             {
                 EmployeeName = e.FirstName + " " + e.LastName,
                 AverageHours = e.Orders.Average(o => o.Hours)

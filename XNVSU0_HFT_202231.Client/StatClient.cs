@@ -31,7 +31,7 @@ namespace XNVSU0_HFT_202231.Client
                 .Add("Income from event by jobs", () => IncomeFromEventByJobs())
                 .Add("Orders count by job", () => OrdersCountByJob())
                 .Add("Most popular fixed wage employees", () => MostPopularFixedWageEmployees())
-                .Add("Income from fixed wage orders in month", () => IncomeFromFixedWageOrdersInMonth())
+                .Add("Income from fixed wage orders in year", () => IncomeFromFixedWageOrdersInYear())
                 .Add("Hourly wage employees average hours", () => HourlyWageEmployeesAverageHours())
                 .Add("Hourly wage orders overview", () => HourlyWageOrdersOverview())
                 .Add("Overall overview", () => OverallOverview())
@@ -75,15 +75,15 @@ namespace XNVSU0_HFT_202231.Client
             }
             Continue();
         }
-        void IncomeFromFixedWageOrdersInMonth()
+        void IncomeFromFixedWageOrdersInYear()
         {
             DisplayOperation();
-            Console.Write("Enter month: ");
+            Console.Write("Enter year: ");
             string input = Console.ReadLine();
             if (int.TryParse(input, out int id))
             {
                 DisplayProcessing();
-                var item = rest.Get<double>(id, "stat/incomefromfixedwageordersinmonth");
+                var item = rest.Get<double>(id, "stat/incomefromfixedwageordersinyear");
                 DisplayOperation();
                 Console.WriteLine(item);
             }

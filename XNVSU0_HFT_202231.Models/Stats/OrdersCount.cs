@@ -15,5 +15,14 @@ namespace XNVSU0_HFT_202231.Models.Stats
                 return FixedWageOrderCount + HourlyWageOrderCount;
             } 
         }
+        public override bool Equals(object obj)
+        {
+            if (obj is not OrdersCount other) return false;
+            return FixedWageOrderCount == other.FixedWageOrderCount && HourlyWageOrderCount == other.HourlyWageOrderCount && OverallCount == other.OverallCount;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

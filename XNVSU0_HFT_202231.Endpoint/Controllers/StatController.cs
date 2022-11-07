@@ -46,10 +46,10 @@ namespace XNVSU0_HFT_202231.Endpoint.Controllers
         {
             return fixedWageEmployeeLogic.MostPopular();
         }
-        [HttpGet("{month}")]
-        public double? IncomeFromFixedWageOrdersInMonth(int month)
+        [HttpGet("{year}")]
+        public double? IncomeFromFixedWageOrdersInYear(int year)
         {
-            return fixedWageOrderLogic.IncomeInMonth(month);
+            return fixedWageOrderLogic.IncomeInYear(year);
         }
         [HttpGet]
         public IEnumerable<EmployeeAverageHours> HourlyWageEmployeesAverageHours()
