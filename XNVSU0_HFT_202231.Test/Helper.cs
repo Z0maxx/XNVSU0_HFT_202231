@@ -360,8 +360,8 @@ namespace XNVSU0_HFT_202231.Test
             return HourlyWageOrderRepository;
         }
         static void SetNavPropsOneToMany<Model2, Model1>(IQueryable<Model2> models2, IQueryable<Model1> models1)
-            where Model1 : Model
-            where Model2 : Model
+            where Model1 : TableModel
+            where Model2 : TableModel
         {
             var model1Props = models1.First().GetType().GetProperties();
             var model1NavProp = model1Props.First(m => m.PropertyType.Name == typeof(Model2).Name);
