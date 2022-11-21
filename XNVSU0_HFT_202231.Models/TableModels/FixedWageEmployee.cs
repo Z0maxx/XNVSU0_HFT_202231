@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace XNVSU0_HFT_202231.Models
+namespace XNVSU0_HFT_202231.Models.TableModels
 {
     [DisplayName("Fixed wage employee")]
     public class FixedWageEmployee : Employee

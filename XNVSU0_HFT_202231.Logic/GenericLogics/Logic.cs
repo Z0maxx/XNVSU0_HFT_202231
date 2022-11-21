@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using XNVSU0_HFT_202231.Models;
+using XNVSU0_HFT_202231.Models.TableModels;
 using XNVSU0_HFT_202231.Repository;
 
 namespace XNVSU0_HFT_202231.Logic

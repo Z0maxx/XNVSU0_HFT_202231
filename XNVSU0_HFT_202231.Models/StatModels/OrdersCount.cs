@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace XNVSU0_HFT_202231.Models.Stats
+namespace XNVSU0_HFT_202231.Models.StatModels
 {
     public class OrdersCount : StatModel
     {
@@ -9,7 +9,8 @@ namespace XNVSU0_HFT_202231.Models.Stats
         [DisplayName("Number of hourly wage orders")]
         public int HourlyWageOrderCount { get; set; }
         [DisplayName("Number of orders overall")]
-        public int OverallCount { 
+        public int OverallCount
+        { 
             get
             {
                 return FixedWageOrderCount + HourlyWageOrderCount;

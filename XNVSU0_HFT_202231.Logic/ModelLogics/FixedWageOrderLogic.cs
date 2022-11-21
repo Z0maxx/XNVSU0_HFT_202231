@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using XNVSU0_HFT_202231.Models;
+using XNVSU0_HFT_202231.Models.TableModels;
 using XNVSU0_HFT_202231.Repository;
 
 namespace XNVSU0_HFT_202231.Logic
@@ -38,7 +38,6 @@ namespace XNVSU0_HFT_202231.Logic
         }
         public double? IncomeInYear(int year)
         {
-            var a = repository.ReadAll().Where(o => o.OrderDate.Value.Year == year);
             return repository.ReadAll().Where(o => o.OrderDate.Value.Year == year).Sum(o => o.Employee.Wage);
         }
     }

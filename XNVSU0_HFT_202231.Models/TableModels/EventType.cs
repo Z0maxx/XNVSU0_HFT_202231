@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace XNVSU0_HFT_202231.Models
+namespace XNVSU0_HFT_202231.Models.TableModels
 {
     [DisplayName("Event type")]
     public class EventType : TableModel
@@ -17,8 +17,8 @@ namespace XNVSU0_HFT_202231.Models
         {
         }
         public EventType(int id, string name)
+            :base(id)
         {
-            Id = id;
             Name = name;
         }
         public override string ToString()

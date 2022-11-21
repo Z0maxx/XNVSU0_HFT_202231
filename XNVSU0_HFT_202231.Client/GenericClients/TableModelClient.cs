@@ -4,7 +4,7 @@ using System.Reflection;
 using System.ComponentModel;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
-using XNVSU0_HFT_202231.Models;
+using XNVSU0_HFT_202231.Models.TableModels;
 using System.Collections.Generic;
 using System.Diagnostics;
 

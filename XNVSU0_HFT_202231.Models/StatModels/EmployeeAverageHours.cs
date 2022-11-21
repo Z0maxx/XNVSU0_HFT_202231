@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace XNVSU0_HFT_202231.Models.Stats
+namespace XNVSU0_HFT_202231.Models.StatModels
 {
     public class EmployeeAverageHours : StatModel
     {

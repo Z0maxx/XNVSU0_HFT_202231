@@ -5,8 +5,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using XNVSU0_HFT_202231.Models;
-using XNVSU0_HFT_202231.Models.Stats;
+using XNVSU0_HFT_202231.Models.TableModels;
+using XNVSU0_HFT_202231.Models.StatModels;
 
 namespace XNVSU0_HFT_202231.Client
 {

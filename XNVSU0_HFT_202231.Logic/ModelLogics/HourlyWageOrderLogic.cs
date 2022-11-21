@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using XNVSU0_HFT_202231.Models;
-using XNVSU0_HFT_202231.Models.Stats;
+using XNVSU0_HFT_202231.Models.StatModels;
+using XNVSU0_HFT_202231.Models.TableModels;
 using XNVSU0_HFT_202231.Repository;
 
 namespace XNVSU0_HFT_202231.Logic

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace XNVSU0_HFT_202231.Models
+namespace XNVSU0_HFT_202231.Models.TableModels
 {
     [DisplayName("Fixed wage order")]
     public class FixedWageOrder : Order

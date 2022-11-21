@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using XNVSU0_HFT_202231.Models;
-using XNVSU0_HFT_202231.Models.Stats;
+using XNVSU0_HFT_202231.Models.TableModels;
+using XNVSU0_HFT_202231.Models.StatModels;
 
 namespace XNVSU0_HFT_202231.Logic
 {

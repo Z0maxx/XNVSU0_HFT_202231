@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace XNVSU0_HFT_202231.Models
+namespace XNVSU0_HFT_202231.Models.TableModels
 {
     public abstract class Employee : TableModel
     {
@@ -32,8 +32,8 @@ namespace XNVSU0_HFT_202231.Models
         {
         }
         protected Employee(int id, string firstName, string lastName, int jobId, double wage, DateTime hireDate, string emailAddress, string phoneNumber)
+            :base(id)
         {
-            Id = id;
             FirstName = firstName;
             LastName = lastName;
             JobId = jobId;

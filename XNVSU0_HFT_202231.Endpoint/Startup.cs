@@ -1,4 +1,3 @@
-using Castle.Core.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -6,12 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using XNVSU0_HFT_202231.Logic;
-using XNVSU0_HFT_202231.Models;
+using XNVSU0_HFT_202231.Models.TableModels;
 using XNVSU0_HFT_202231.Repository;
 
 namespace XNVSU0_HFT_202231.Endpoint

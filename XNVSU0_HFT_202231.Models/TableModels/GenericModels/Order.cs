@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace XNVSU0_HFT_202231.Models
+namespace XNVSU0_HFT_202231.Models.TableModels
 {
     public abstract class Order : TableModel
     {
@@ -30,8 +30,8 @@ namespace XNVSU0_HFT_202231.Models
         {
         }
         protected Order(int id, DateTime orderDate, int employeeId)
+            :base(id)
         {
-            Id = id;
             OrderDate = orderDate;
             EmployeeId = employeeId;
         }

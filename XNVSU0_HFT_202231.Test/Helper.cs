@@ -1,7 +1,7 @@
 ﻿using Moq;
 using System;
 using XNVSU0_HFT_202231.Repository;
-using XNVSU0_HFT_202231.Models;
+using XNVSU0_HFT_202231.Models.TableModels;
 using System.Collections.Generic;
 using System.Linq;
 using XNVSU0_HFT_202231.Logic;

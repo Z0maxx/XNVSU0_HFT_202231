@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
-using XNVSU0_HFT_202231.Models.Stats;
+using XNVSU0_HFT_202231.Models.StatModels;
 using static XNVSU0_HFT_202231.Test.Helper;
 
 namespace XNVSU0_HFT_202231.Test

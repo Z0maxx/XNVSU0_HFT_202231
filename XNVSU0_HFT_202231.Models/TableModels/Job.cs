@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace XNVSU0_HFT_202231.Models
+namespace XNVSU0_HFT_202231.Models.TableModels
 {
     public class Job : TableModel
     {
@@ -17,8 +17,8 @@ namespace XNVSU0_HFT_202231.Models
         {
         }
         public Job(int id, string name)
+            :base(id)
         {
-            Id = id;
             Name = name;
         }
         public override string ToString()
