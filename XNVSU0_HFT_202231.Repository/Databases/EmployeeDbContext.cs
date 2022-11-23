@@ -27,36 +27,35 @@ namespace XNVSU0_HFT_202231.Repository
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<FixedWageEmployee>(emp => emp
+            modelBuilder.Entity<FixedWageEmployee>()
                 .HasOne(emp => emp.Job)
                 .WithMany(job => job.FixedWageEmployees)
                 .HasForeignKey(emp => emp.JobId)
-                .OnDelete(DeleteBehavior.SetNull)
-            );
-            modelBuilder.Entity<HourlyWageEmployee>(emp => emp
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<HourlyWageEmployee>()
                 .HasOne(emp => emp.Job)
                 .WithMany(job => job.HourlyWageEmployees)
                 .HasForeignKey(emp => emp.JobId)
-                .OnDelete(DeleteBehavior.SetNull)
-            );
-            modelBuilder.Entity<FixedWageOrder>(order => order
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<FixedWageOrder>()
                 .HasOne(order => order.EventType)
                 .WithMany(eventType => eventType.Orders)
                 .HasForeignKey(order => order.EventTypeId)
-                .OnDelete(DeleteBehavior.SetNull)
-            );
-            modelBuilder.Entity<FixedWageOrder>(order => order
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<FixedWageOrder>()
                 .HasOne(order => order.Employee)
                 .WithMany(emp => emp.Orders)
                 .HasForeignKey(order => order.EmployeeId)
-                .OnDelete(DeleteBehavior.SetNull)
-            );
-            modelBuilder.Entity<HourlyWageOrder>(order => order
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<HourlyWageOrder>()
                 .HasOne(order => order.Employee)
                 .WithMany(emp => emp.Orders)
                 .HasForeignKey(order => order.EmployeeId)
-                .OnDelete(DeleteBehavior.SetNull)
-            );
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Job>().HasData(
                 new Job()

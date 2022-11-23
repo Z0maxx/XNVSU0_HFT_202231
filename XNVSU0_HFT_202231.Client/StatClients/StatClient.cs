@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using XNVSU0_HFT_202231.Models.TableModels;
 using XNVSU0_HFT_202231.Models.StatModels;
+using static XNVSU0_HFT_202231.Client.CustomAttributeExtension;
 
 namespace XNVSU0_HFT_202231.Client
 {
@@ -134,11 +134,11 @@ namespace XNVSU0_HFT_202231.Client
                 var propValue = prop.GetValue(item);
                 if (prop.GetAccessors().FirstOrDefault(a => a.IsVirtual) == null)
                 {
-                    Console.WriteLine($"{level}{GetDisplayName(prop)}: {propValue}");
+                    Console.WriteLine($"{level}{prop.GetDisplayName()}: {propValue}");
                 }
                 else if (propValue != null)
                 {
-                    Console.WriteLine($"{level}{GetDisplayName(prop)}:");
+                    Console.WriteLine($"{level}{prop.GetDisplayName()}:");
                     string newLevel = level + "    ";
                     DisplayProperties(propValue as StatModel, newLevel);
                 }
@@ -157,24 +157,6 @@ namespace XNVSU0_HFT_202231.Client
             }
             Console.Clear();
             Console.WriteLine($"[Stats | {callerName}]\n");
-        }
-        static string GetDisplayName(PropertyInfo prop)
-        {
-            var attribute = prop.GetCustomAttribute<DisplayNameAttribute>();
-            if (attribute == null) return prop.Name;
-            return attribute.DisplayName;
-        }
-        static string GetDisplayName(Action a)
-        {
-            var attribute = a.Method.GetCustomAttribute<DisplayNameAttribute>();
-            if (attribute == null) return a.Method.Name;
-            return attribute.DisplayName;
-        }
-        static string GetDisplayName(MethodBase m)
-        {
-            var attribute = m.GetCustomAttribute<DisplayNameAttribute>();
-            if (attribute == null) return m.Name;
-            return attribute.DisplayName;
         }
         static void DisplayProcessing(string callerName = "")
         {

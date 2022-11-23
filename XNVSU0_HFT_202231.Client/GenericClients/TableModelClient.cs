@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using XNVSU0_HFT_202231.Models.TableModels;
 using System.Collections.Generic;
 using System.Diagnostics;
+using static XNVSU0_HFT_202231.Client.CustomAttributeExtension;
 
 namespace XNVSU0_HFT_202231.Client
 {
@@ -19,7 +20,7 @@ namespace XNVSU0_HFT_202231.Client
         protected delegate IEnumerable<S> RestGetDelegate<S>(string endpoint) where S : TableModel;
         protected readonly Dictionary<string, Dictionary<string, object>> optionsDict;
         protected readonly ConsoleMenu MethodsMenu;
-        protected static readonly string modelName = GetDisplayName(typeof(T));
+        protected static readonly string modelName = typeof(T).GetDisplayName();
         public TableModelClient(RestService rest, string[] args, string[] propOrder)
         {
             this.rest = rest;
@@ -125,7 +126,7 @@ namespace XNVSU0_HFT_202231.Client
         {
             if (callerName == "")
             {
-                callerName = GetDisplayName(new StackTrace().GetFrame(1).GetMethod());
+                callerName = new StackTrace().GetFrame(1).GetMethod().GetDisplayName();
             }
             T newItem = new();
             var propInfos = newItem.GetType().GetProperties();
@@ -151,9 +152,9 @@ namespace XNVSU0_HFT_202231.Client
                             if (prop.Contains("Id"))
                             {
                                 var navProp = propInfos.First(p => p.Name == prop.Substring(0, prop.Length - 2));
-                                updateMenu.Add($"{GetDisplayName(navProp)}", () => SetPropValue(newItem, propInfo, callerName, navProp, update));
+                                updateMenu.Add($"{navProp.GetDisplayName()}", () => SetPropValue(newItem, propInfo, callerName, navProp, update));
                             }
-                            else updateMenu.Add($"{GetDisplayName(propInfo)}", () => SetPropValue(newItem, propInfo, callerName, update: true));
+                            else updateMenu.Add($"{propInfo.GetDisplayName()}", () => SetPropValue(newItem, propInfo, callerName, update: true));
                         }
                     }
                     updateMenu.Add("Exit", ConsoleMenu.Close);
@@ -184,7 +185,7 @@ namespace XNVSU0_HFT_202231.Client
             foreach (var prop in item.GetType().GetProperties())
             {
                 var propValue = prop.GetValue(item);
-                var propName = GetDisplayName(prop);
+                var propName = prop.GetDisplayName();
                 if (prop.GetAccessors().FirstOrDefault(a => a.IsVirtual) == null)
                 {
                     Console.WriteLine($"{level}{propName}: {propValue}");
@@ -206,7 +207,7 @@ namespace XNVSU0_HFT_202231.Client
         {
             if (callerName == "")
             {
-                callerName = GetDisplayName(new StackTrace().GetFrame(1).GetMethod());
+                callerName = new StackTrace().GetFrame(1).GetMethod().GetDisplayName();
             }
             Console.Clear();
             Console.WriteLine($"[{modelName} | {callerName}]\n");
@@ -221,7 +222,7 @@ namespace XNVSU0_HFT_202231.Client
             ConsoleColor originalColor = Console.ForegroundColor;
             ConsoleColor originalBColor = Console.BackgroundColor;
             Console.BackgroundColor = ConsoleColor.Black;
-            DisplayOperation(GetDisplayName(caller));
+            DisplayOperation(caller.GetDisplayName());
             if (result.Success)
             {
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -240,7 +241,7 @@ namespace XNVSU0_HFT_202231.Client
         {
             if (callerName == "")
             {
-                callerName = GetDisplayName(new StackTrace().GetFrame(1).GetMethod());
+                callerName = new StackTrace().GetFrame(1).GetMethod().GetDisplayName();
             }
             DisplayOperation(callerName);
             ConsoleColor originalColor = Console.ForegroundColor;
@@ -255,7 +256,7 @@ namespace XNVSU0_HFT_202231.Client
         {
             if (callerName == "")
             {
-                callerName = GetDisplayName(new StackTrace().GetFrame(1).GetMethod());
+                callerName = new StackTrace().GetFrame(1).GetMethod().GetDisplayName();
             }
             DisplayOperation(callerName);
             Console.WriteLine("Processing");
@@ -271,7 +272,7 @@ namespace XNVSU0_HFT_202231.Client
             else
             {
                 var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
-                var propName = GetDisplayName(propInfo);
+                var propName = propInfo.GetDisplayName();
                 if (update) attributes = attributes.Where(a => a is not RequiredAttribute);
                 bool required = true;
                 if (!update && attributes.FirstOrDefault(a => a is RequiredAttribute) == null)
@@ -308,7 +309,7 @@ namespace XNVSU0_HFT_202231.Client
         }
         void SetOption(PropertyInfo navProp, PropertyInfo foreignKey, T newItem, string callerName, bool update = false)
         {
-            string navPropName = GetDisplayName(navProp);
+            string navPropName = navProp.GetDisplayName();
             var menu = new ConsoleMenu();
             if (update)
             {
@@ -348,30 +349,6 @@ namespace XNVSU0_HFT_202231.Client
         public void ShowMenu()
         {
             MethodsMenu.Show();
-        }
-        static string GetDisplayName(PropertyInfo prop)
-        {
-            var attribute = prop.GetCustomAttribute<DisplayNameAttribute>();
-            if (attribute == null) return prop.Name;
-            return attribute.DisplayName;
-        }
-        static string GetDisplayName(Type type)
-        {
-            var attribute = type.GetCustomAttribute<DisplayNameAttribute>();
-            if (attribute == null) return type.Name;
-            return attribute.DisplayName;
-        }
-        static string GetDisplayName(Action a)
-        {
-            var attribute = a.Method.GetCustomAttribute<DisplayNameAttribute>();
-            if (attribute == null) return a.Method.Name;
-            return attribute.DisplayName;
-        }
-        static string GetDisplayName(MethodBase m)
-        {
-            var attribute = m.GetCustomAttribute<DisplayNameAttribute>();
-            if (attribute == null) return m.Name;
-            return attribute.DisplayName;
         }
     }
 }

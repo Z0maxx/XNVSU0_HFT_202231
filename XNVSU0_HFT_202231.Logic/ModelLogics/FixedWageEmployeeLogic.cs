@@ -16,12 +16,12 @@ namespace XNVSU0_HFT_202231.Logic
         }
         public override void Create(FixedWageEmployee item)
         {
-            if (jobRepository.Read(item.JobId) == null) throw new ArgumentException($"{GetDisplayName(typeof(Job))} by this id not found: {item.JobId}");
+            if (jobRepository.Read(item.JobId) == null) throw new ArgumentException($"{typeof(Job).GetDisplayName()} by this id not found: {item.JobId}");
             base.Create(item);
         }
         public override void Update(FixedWageEmployee item)
         {
-            if (jobRepository.Read(item.JobId) == null) throw new ArgumentException($"{GetDisplayName(typeof(Job))} by this id not found: {item.JobId}");
+            if (jobRepository.Read(item.JobId) == null) throw new ArgumentException($"{typeof(Job).GetDisplayName()} by this id not found: {item.JobId}");
             base.Update(item);
         }
         public IEnumerable<EmployeeOrdersCount> MostPopular()

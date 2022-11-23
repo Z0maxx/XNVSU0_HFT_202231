@@ -1,7 +1,5 @@
 ﻿using ConsoleTools;
 using System;
-using System.ComponentModel;
-using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace XNVSU0_HFT_202231.Client
@@ -36,18 +34,11 @@ namespace XNVSU0_HFT_202231.Client
                 });
             foreach (IClient client in clients)
             {
-                menu.Add(GetDisplayName(client), () => client.ShowMenu());
+                menu.Add(client.GetDisplayName(), () => client.ShowMenu());
             }
             menu
                 .Add("Exit", ConsoleMenu.Close)
                 .Show();
-        }
-        static string GetDisplayName(object obj)
-        {
-            var type = obj.GetType();
-            var attribute = type.GetCustomAttribute<DisplayNameAttribute>();
-            if (attribute == null) return type.Name;
-            return attribute.DisplayName;
         }
     }
 }

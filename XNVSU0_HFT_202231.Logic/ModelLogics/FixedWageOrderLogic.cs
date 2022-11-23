@@ -16,9 +16,9 @@ namespace XNVSU0_HFT_202231.Logic
         }
         public override void Create(FixedWageOrder item)
         {
-            if (eventTypeRepository.Read(item.EventTypeId) == null) throw new ArgumentException($"{GetDisplayName(typeof(EventType))} by this id not found: {item.EventTypeId}");
+            if (eventTypeRepository.Read(item.EventTypeId) == null) throw new ArgumentException($"{typeof(EventType).GetDisplayName()} by this id not found: {item.EventTypeId}");
             var employee = employeeRepository.Read(item.EmployeeId);
-            if (employee == null) throw new ArgumentException($"{GetDisplayName(typeof(FixedWageEmployee))} by this id not found: {item.EmployeeId}");
+            if (employee == null) throw new ArgumentException($"{typeof(FixedWageEmployee).GetDisplayName()} by this id not found: {item.EmployeeId}");
             if (repository.ReadAll().FirstOrDefault(o => o.EmployeeId == item.EmployeeId && o.OrderDate.Value.Date == item.OrderDate.Value.Date) != null)
             {
                 throw new ArgumentException($"There is already an order for {employee.FirstName} {employee.LastName} on {item.OrderDate.Value.ToShortDateString()}");
@@ -27,9 +27,9 @@ namespace XNVSU0_HFT_202231.Logic
         }
         public override void Update(FixedWageOrder item)
         {
-            if (eventTypeRepository.Read(item.EventTypeId) == null) throw new ArgumentException($"{GetDisplayName(typeof(EventType))} by this id not found: {item.EventTypeId}");
+            if (eventTypeRepository.Read(item.EventTypeId) == null) throw new ArgumentException($"{typeof(EventType).GetDisplayName()} by this id not found: {item.EventTypeId}");
             var employee = employeeRepository.Read(item.EmployeeId);
-            if (employee == null) throw new ArgumentException($"{GetDisplayName(typeof(FixedWageEmployee))} by this id not found: {item.EmployeeId}");
+            if (employee == null) throw new ArgumentException($"{typeof(FixedWageEmployee).GetDisplayName()} by this id not found: {item.EmployeeId}");
             if (repository.ReadAll().FirstOrDefault(o => o.EmployeeId == item.EmployeeId && o.OrderDate.Value.Date == item.OrderDate.Value.Date && o.Id != item.Id) != null)
             {
                 throw new ArgumentException($"There is already an order for {employee.FirstName} {employee.LastName} on {item.OrderDate.Value.ToShortDateString()}");

@@ -17,7 +17,7 @@ namespace XNVSU0_HFT_202231.Logic
         public override void Create(HourlyWageOrder item)
         {
             var employee = employeeRepository.Read(item.EmployeeId);
-            if (employee == null) throw new ArgumentException($"{GetDisplayName(typeof(HourlyWageEmployee))} by this id not found: {item.EmployeeId}");
+            if (employee == null) throw new ArgumentException($"{typeof(HourlyWageEmployee).GetDisplayName()} by this id not found: {item.EmployeeId}");
             if (repository.ReadAll().FirstOrDefault(o => o.EmployeeId == item.EmployeeId && o.OrderDate.Value.Date == item.OrderDate.Value.Date) != null)
             {
                 throw new ArgumentException($"There is already an order for {employee.FirstName} {employee.LastName} on {item.OrderDate.Value.ToShortDateString()}");
@@ -31,7 +31,7 @@ namespace XNVSU0_HFT_202231.Logic
         public override void Update(HourlyWageOrder item)
         {
             var employee = employeeRepository.Read(item.EmployeeId);
-            if (employee == null) throw new ArgumentException($"{GetDisplayName(typeof(HourlyWageEmployee))} by this id not found: {item.EmployeeId}");
+            if (employee == null) throw new ArgumentException($"{typeof(HourlyWageEmployee).GetDisplayName()} by this id not found: {item.EmployeeId}");
             if (repository.ReadAll().FirstOrDefault(o => o.EmployeeId == item.EmployeeId && o.OrderDate.Value.Date == item.OrderDate.Value.Date && o.Id != item.Id) != null)
             {
                 throw new ArgumentException($"There is already an order for {employee.FirstName} {employee.LastName} on {item.OrderDate.Value.ToShortDateString()}");

@@ -17,7 +17,7 @@ namespace XNVSU0_HFT_202231.Logic
         }
         public virtual void Create(T item)
         {
-            if (repository.Read(item.Id) != null) throw new ArgumentException($"{GetDisplayName(typeof(T))} by this id already exists: {item.Id}");
+            if (repository.Read(item.Id) != null) throw new ArgumentException($"{typeof(T).GetDisplayName()} by this id already exists: {item.Id}");
             foreach (var propInfo in item.GetType().GetProperties())
             {
                 var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
@@ -33,7 +33,7 @@ namespace XNVSU0_HFT_202231.Logic
         public T Read(int id)
         {
             var result = repository.Read(id);
-            if (result == null) throw new ArgumentException($"{GetDisplayName(typeof(T))} not found by this id: {id}");
+            if (result == null) throw new ArgumentException($"{typeof(T).GetDisplayName()} not found by this id: {id}");
             return result;
         }
 
@@ -45,19 +45,13 @@ namespace XNVSU0_HFT_202231.Logic
         public virtual void Update(T item)
         {
             if (item.Id == null) throw new ArgumentException("Id is required");
-            if (repository.Read(item.Id) == null) throw new ArgumentException($"{GetDisplayName(typeof(T))} not found by this id: {item.Id}");
+            if (repository.Read(item.Id) == null) throw new ArgumentException($"{typeof(T).GetDisplayName()} not found by this id: {item.Id}");
             foreach (var propInfo in item.GetType().GetProperties())
             {
                 var attributes = propInfo.GetCustomAttributes<ValidationAttribute>();
                 Validator.ValidateValue(propInfo.GetValue(item), new ValidationContext(item), attributes);
             }
             repository.Update(item);
-        }
-        static protected string GetDisplayName(Type type)
-        {
-            var attribute = type.GetCustomAttribute<DisplayNameAttribute>();
-            if (attribute == null) return type.Name;
-            return attribute.DisplayName;
         }
     }
 }
