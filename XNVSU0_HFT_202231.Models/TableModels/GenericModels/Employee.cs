@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace XNVSU0_HFT_202231.Models.TableModels
 {
@@ -17,6 +18,7 @@ namespace XNVSU0_HFT_202231.Models.TableModels
         [Required(ErrorMessage = "Job id is required")]
         [DisplayName("Job id")]
         public int? JobId { get; set; }
+        [NotMapped]
         public virtual Job Job { get; set; }
         [Range(1000, 99999, ErrorMessage = "Wage must be between 1000 and 99999")]
         public double? Wage { get; set; }

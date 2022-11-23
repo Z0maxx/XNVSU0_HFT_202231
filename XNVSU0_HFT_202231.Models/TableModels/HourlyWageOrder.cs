@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace XNVSU0_HFT_202231.Models.TableModels
 {
@@ -10,6 +11,7 @@ namespace XNVSU0_HFT_202231.Models.TableModels
         [Required(ErrorMessage = "Work hours is required")]
         [DisplayName("Work hours")]
         public double? Hours { get; set; }
+        [NotMapped]
         public virtual HourlyWageEmployee Employee { get; set; }
         public HourlyWageOrder()
         {

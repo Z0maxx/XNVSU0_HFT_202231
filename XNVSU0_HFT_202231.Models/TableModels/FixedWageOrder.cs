@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace XNVSU0_HFT_202231.Models.TableModels
 {
@@ -10,8 +11,10 @@ namespace XNVSU0_HFT_202231.Models.TableModels
         [Required(ErrorMessage = "Event type id is required")]
         [DisplayName("Event type id")]
         public int? EventTypeId { get; set; }
+        [NotMapped]
         public virtual FixedWageEmployee Employee { get; set; }
         [DisplayName("Event type")]
+        [NotMapped]
         public virtual EventType EventType { get; set; }
         public FixedWageOrder()
         {

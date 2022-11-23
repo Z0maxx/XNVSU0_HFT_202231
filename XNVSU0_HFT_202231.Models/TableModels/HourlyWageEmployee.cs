@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace XNVSU0_HFT_202231.Models.TableModels
@@ -18,6 +19,7 @@ namespace XNVSU0_HFT_202231.Models.TableModels
         [DisplayName("Maximum work hours")]
         public double? MaxHours { get; set; }
         [JsonIgnore]
+        [NotMapped]
         public virtual ICollection<HourlyWageOrder> Orders { get; set; }
         public HourlyWageEmployee()
         {
