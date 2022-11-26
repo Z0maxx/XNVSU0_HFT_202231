@@ -153,7 +153,7 @@ namespace XNVSU0_HFT_202231.Client
         {
             if (callerName == "")
             {
-                callerName = GetDisplayName(new StackTrace().GetFrame(1).GetMethod());
+                callerName = new StackTrace().GetFrame(1).GetMethod().GetDisplayName();
             }
             Console.Clear();
             Console.WriteLine($"[Stats | {callerName}]\n");
@@ -162,7 +162,7 @@ namespace XNVSU0_HFT_202231.Client
         {
             if (callerName == "")
             {
-                callerName = GetDisplayName(new StackTrace().GetFrame(1).GetMethod());
+                callerName = new StackTrace().GetFrame(1).GetMethod().GetDisplayName();
             }
             DisplayOperation(callerName);
             Console.WriteLine("Processing");
@@ -171,7 +171,7 @@ namespace XNVSU0_HFT_202231.Client
         {
             if (callerName == "")
             {
-                callerName = GetDisplayName(new StackTrace().GetFrame(1).GetMethod());
+                callerName = new StackTrace().GetFrame(1).GetMethod().GetDisplayName();
             }
             int optionId = 0;
             var menu = new ConsoleMenu();
@@ -199,7 +199,7 @@ namespace XNVSU0_HFT_202231.Client
         {
             if (callerName == "")
             {
-                callerName = GetDisplayName(new StackTrace().GetFrame(1).GetMethod());
+                callerName = new StackTrace().GetFrame(1).GetMethod().GetDisplayName();
             }
             DisplayOperation(callerName);
             ConsoleColor originalColor = Console.ForegroundColor;
