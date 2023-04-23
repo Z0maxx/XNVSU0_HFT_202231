@@ -16,8 +16,8 @@ namespace XNVSU0_HFT_202231.Models.TableModels
         public HourlyWageOrder()
         {
         }
-        public HourlyWageOrder(int id, DateTime orderDate, int employeeId, int hours)
-            : base(id, orderDate, employeeId)
+        public HourlyWageOrder(int id, DateTime orderDate, string firstName, string lastName, string emailAddress, string phoneNumber, int employeeId, int hours)
+            : base(id, orderDate, firstName, lastName, emailAddress, phoneNumber, employeeId)
         {
             Hours = hours;
         }

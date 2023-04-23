@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace XNVSU0_HFT_202231.Models.TableModels
 {
-    public abstract class Order : TableModel
+    public class Order : TableModel
     {
         [Required(ErrorMessage = "Order date is required")]
         [DisplayName("Order date")]
@@ -26,13 +26,17 @@ namespace XNVSU0_HFT_202231.Models.TableModels
         public string EmailAddress { get; set; }
         [DisplayName("Phone number")]
         public string PhoneNumber { get; set; }
-        protected Order()
+        public Order()
         {
         }
-        protected Order(int id, DateTime orderDate, int employeeId)
+        public Order(int id, DateTime orderDate, string firstName, string lastName, string emailAddress, string phoneNumber, int employeeId)
             :base(id)
         {
             OrderDate = orderDate;
+            FirstName = firstName;
+            LastName = lastName;
+            EmailAddress = emailAddress;
+            PhoneNumber = phoneNumber;
             EmployeeId = employeeId;
         }
     }

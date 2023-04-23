@@ -42,6 +42,15 @@ namespace XNVSU0_HFT_202231.Logic
             }
             base.Update(item);
         }
+        public IEnumerable<HourlyWageOrder> GetAllForCustomer(DateTime? orderDate, string firstName, string lastName, string emailAddress)
+        {
+            return this.repository.ReadAll().Where(o => o.OrderDate == orderDate && o.FirstName == firstName && o.LastName == lastName && o.EmailAddress == emailAddress);
+        }
+        public IEnumerable<HourlyWageEmployee> GetAvailableEmployeesForOrder(Order order)
+        {
+            var allForCustomerEmployeeIds = GetAllForCustomer(order.OrderDate, order.FirstName, order.LastName, order.EmailAddress).Select(o => o.EmployeeId);
+            return this.employeeRepository.ReadAll().Where(e => !allForCustomerEmployeeIds.Contains(e.Id));
+        }
         public IEnumerable<IncomeFromOrder> Overview()
         {
             return repository.ReadAll().Select(o => new IncomeFromOrder()

@@ -15,7 +15,7 @@ namespace XNVSU0_HFT_202231.Client
         }
         static void ShowTables(string[] args)
         {
-            var rest = new RestService("http://localhost:14784/");
+            var rest = new RestService("http://localhost:14784/api/");
             IClient[] clients = new IClient[]
             {
                 new JobClient(rest, args),

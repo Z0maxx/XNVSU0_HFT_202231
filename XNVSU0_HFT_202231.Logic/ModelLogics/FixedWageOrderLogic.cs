@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using XNVSU0_HFT_202231.Models.TableModels;
 using XNVSU0_HFT_202231.Repository;
@@ -35,6 +38,15 @@ namespace XNVSU0_HFT_202231.Logic
                 throw new ArgumentException($"There is already an order for {employee.FirstName} {employee.LastName} on {item.OrderDate.Value.ToShortDateString()}");
             }
             base.Update(item);
+        }
+        public IEnumerable<FixedWageOrder> GetAllForCustomer(DateTime? orderDate, string firstName, string lastName, string emailAddress)
+        {
+            return this.repository.ReadAll().Where(o => o.OrderDate == orderDate && o.FirstName == firstName && o.LastName == lastName && o.EmailAddress == emailAddress);
+        }
+        public IEnumerable<FixedWageEmployee> GetAvailableEmployeesForOrder(Order order)
+        {
+            var allForCustomerEmployeeIds = GetAllForCustomer(order.OrderDate, order.FirstName, order.LastName, order.EmailAddress).Select(o => o.EmployeeId);
+            return this.employeeRepository.ReadAll().Where(e => !allForCustomerEmployeeIds.Contains(e.Id));
         }
         public double? IncomeInYear(int year)
         {

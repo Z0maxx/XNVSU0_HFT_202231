@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
@@ -25,6 +25,13 @@ namespace XNVSU0_HFT_202231.Logic
             }
             repository.Create(item);
         }
+        public virtual void CreateBulk(IEnumerable<T> items)
+        {
+            foreach (T item in items)
+            {
+                Create(item);
+            }
+        }
         public virtual void Delete(int id)
         {
             Read(id);
@@ -42,6 +49,11 @@ namespace XNVSU0_HFT_202231.Logic
             return repository.ReadAll();
         }
 
+        public IEnumerable<T> ReadBulk(IEnumerable<int> ids)
+        {
+            return repository.ReadAll().Where(item => ids.Contains((int)item.Id));
+        }
+
         public virtual void Update(T item)
         {
             if (item.Id == null) throw new ArgumentException("Id is required");
@@ -52,6 +64,14 @@ namespace XNVSU0_HFT_202231.Logic
                 Validator.ValidateValue(propInfo.GetValue(item), new ValidationContext(item), attributes);
             }
             repository.Update(item);
+        }
+
+        public virtual void UpdateBulk(IEnumerable<T> items)
+        {
+            foreach (T item in items)
+            {
+                Update(item);
+            }
         }
     }
 }

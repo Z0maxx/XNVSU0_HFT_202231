@@ -4,6 +4,7 @@ using System.Linq;
 using XNVSU0_HFT_202231.Models.TableModels;
 using XNVSU0_HFT_202231.Models.StatModels;
 using XNVSU0_HFT_202231.Repository;
+using System.Security.Cryptography;
 
 namespace XNVSU0_HFT_202231.Logic
 {
@@ -34,6 +35,10 @@ namespace XNVSU0_HFT_202231.Logic
                 AverageHours = e.Orders.Average(o => o.Hours)
             });
             return averageHours;
+        }
+        public IEnumerable<HourlyWageEmployee> GetAvailable(DateTime date, int jobId)
+        {
+            return repository.ReadAll().Where(e => e.Orders.Count(o => o.OrderDate.Value.Date == date.Date) == 0 && e.Job.Id == jobId);
         }
     }
 }

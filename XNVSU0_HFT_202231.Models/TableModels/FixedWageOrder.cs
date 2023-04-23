@@ -19,8 +19,8 @@ namespace XNVSU0_HFT_202231.Models.TableModels
         public FixedWageOrder()
         {
         }
-        public FixedWageOrder(int id, DateTime orderDate, int employeeId, int eventTypeId)
-            :base(id, orderDate, employeeId)
+        public FixedWageOrder(int id, DateTime orderDate, string firstName, string lastName, string emailAddress, string phoneNumber, int employeeId, int eventTypeId)
+            :base(id, orderDate, firstName, lastName, emailAddress, phoneNumber, employeeId)
         {
             EventTypeId = eventTypeId;
         }

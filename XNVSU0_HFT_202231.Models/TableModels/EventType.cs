@@ -29,7 +29,7 @@ namespace XNVSU0_HFT_202231.Models.TableModels
         }
         public override bool Equals(object obj)
         {
-            if (obj is not Job other) return false;
+            if (obj is not EventType other) return false;
             return Name == other.Name;
         }
         public override int GetHashCode()
