@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace XNVSU0_HFT_202231.Models.TableModels
 {
-    [DisplayName("Fixed wage order")]
+    [DisplayName("Fixed Wage Order")]
     public class FixedWageOrder : Order
     {
-        [Required(ErrorMessage = "Event type id is required")]
-        [DisplayName("Event type id")]
+        [Required(ErrorMessage = "Event type Id is required")]
+        [DisplayName("Event type Id")]
         public int? EventTypeId { get; set; }
         [NotMapped]
         public virtual FixedWageEmployee Employee { get; set; }

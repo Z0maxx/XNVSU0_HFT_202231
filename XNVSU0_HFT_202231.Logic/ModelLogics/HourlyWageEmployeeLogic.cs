@@ -17,14 +17,14 @@ namespace XNVSU0_HFT_202231.Logic
         }
         public override void Create(HourlyWageEmployee item)
         {
-            if (jobRepository.Read(item.JobId) == null) throw new ArgumentException($"{typeof(Job).GetDisplayName()} by this id not found: {item.JobId}");
-            if (item.MinHours >= item.MaxHours) throw new ArgumentException("Minimum hours must be less than maximum hours");
+            if (jobRepository.Read(item.JobId) == null) throw new ArgumentException($"{typeof(Job).GetDisplayName()} by this Id not found: {item.JobId}");
+            if (item.MinHours >= item.MaxHours) throw new ArgumentException($"{item.MinHours.GetDisplayName()} must be less than ${item.MaxHours.GetDisplayName()}");
             base.Create(item);
         }
         public override void Update(HourlyWageEmployee item)
         {
-            if (jobRepository.Read(item.JobId) == null) throw new ArgumentException($"{typeof(Job).GetDisplayName()} by this id not found: {item.JobId}");
-            if (item.MinHours >= item.MaxHours) throw new ArgumentException("Minimum hours must be less than maximum hours");
+            if (jobRepository.Read(item.JobId) == null) throw new ArgumentException($"{typeof(Job).GetDisplayName()} by this Id not found: {item.JobId}");
+            if (item.MinHours >= item.MaxHours) throw new ArgumentException($"{item.MinHours.GetDisplayName()} must be less than ${item.MaxHours.GetDisplayName()}");
             base.Update(item);
         }
         public IEnumerable<EmployeeAverageHours> AverageHours()

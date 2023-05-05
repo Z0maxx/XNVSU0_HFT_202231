@@ -7,28 +7,28 @@ namespace XNVSU0_HFT_202231.Models.TableModels
 {
     public abstract class Employee : TableModel
     {
-        [Required(ErrorMessage = "First name is required")]
-        [StringLength(30, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 30 characters")]
-        [DisplayName("First name")]
+        [Required(ErrorMessage = "First Name is required")]
+        [StringLength(30, MinimumLength = 2, ErrorMessage = "First Name must be between 2 and 30 characters")]
+        [DisplayName("First Name")]
         public string FirstName { get; set; }
-        [Required(ErrorMessage = "Last name is required")]
-        [StringLength(30, MinimumLength = 2, ErrorMessage = "Last name must be between 2 and 30 characters")]
-        [DisplayName("Last name")]
+        [Required(ErrorMessage = "Last Name is required")]
+        [StringLength(30, MinimumLength = 2, ErrorMessage = "Last Name must be between 2 and 30 characters")]
+        [DisplayName("Last Name")]
         public string LastName { get; set; }
-        [Required(ErrorMessage = "Job id is required")]
-        [DisplayName("Job id")]
+        [Required(ErrorMessage = "Job Id is required")]
+        [DisplayName("Job Id")]
         public int? JobId { get; set; }
         [NotMapped]
         public virtual Job Job { get; set; }
         [Range(1000, 99999, ErrorMessage = "Wage must be between 1000 and 99999")]
         public double? Wage { get; set; }
-        [Required(ErrorMessage = "Hire date is required")]
-        [DisplayName("Hire date")]
+        [Required(ErrorMessage = "Hire Date is required")]
+        [DisplayName("Hire Date")]
         public DateTime? HireDate { get; set; }
-        [StringLength(50, MinimumLength = 10, ErrorMessage = "Email address must be between 10 and 50 characters")]
-        [DisplayName("Email address")]
+        [StringLength(50, MinimumLength = 10, ErrorMessage = "Email Address must be between 10 and 50 characters")]
+        [DisplayName("Email Address")]
         public string EmailAddress { get; set; }
-        [DisplayName("Phone number")]
+        [DisplayName("Phone Number")]
         public string PhoneNumber { get; set; }
         protected Employee()
         {

@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace XNVSU0_HFT_202231.Models.TableModels
 {
-    [DisplayName("Hourly wage order")]
+    [DisplayName("Hourly Wage Order")]
     public class HourlyWageOrder : Order
     {
-        [Required(ErrorMessage = "Work hours is required")]
-        [DisplayName("Work hours")]
+        [Required(ErrorMessage = "Work Hours is required")]
+        [DisplayName("Work Hours")]
         public double? Hours { get; set; }
         [NotMapped]
         public virtual HourlyWageEmployee Employee { get; set; }
