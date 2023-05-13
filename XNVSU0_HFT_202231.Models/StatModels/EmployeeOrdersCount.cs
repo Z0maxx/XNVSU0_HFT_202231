@@ -10,7 +10,7 @@ namespace XNVSU0_HFT_202231.Models.StatModels
         public int OrdersCount { get; set; }
         public override bool Equals(object obj)
         {
-            var other = obj as EmployeeOrdersCount;
+            if (obj is not EmployeeOrdersCount other) return false;
             return EmployeeName == other.EmployeeName && OrdersCount == other.OrdersCount;
         }
         public override int GetHashCode()

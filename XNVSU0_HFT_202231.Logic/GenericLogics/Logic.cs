@@ -73,5 +73,9 @@ namespace XNVSU0_HFT_202231.Logic
                 Update(item);
             }
         }
+        protected static PropertyInfo GetPropertyInfo(T item, string propName)
+        {
+            return item.GetType().GetProperty(propName);
+        }
     }
 }

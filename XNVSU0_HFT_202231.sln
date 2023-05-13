@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31829.152
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XNVSU0_HFT_202231.Client", "XNVSU0_HFT_202231.Client\XNVSU0_HFT_202231.Client.csproj", "{EB62A141-327B-4DB1-A27C-8E7D1E4A55EE}"
 EndProject
@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Others", "Others", "{BF889D
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfClient", "WpfClient\WpfClient.csproj", "{285E3333-6DAC-4CC7-A69D-612AFC620015}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{703D0B65-AF74-42A3-872D-80C98E728C51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{703D0B65-AF74-42A3-872D-80C98E728C51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{703D0B65-AF74-42A3-872D-80C98E728C51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{285E3333-6DAC-4CC7-A69D-612AFC620015}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{285E3333-6DAC-4CC7-A69D-612AFC620015}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{285E3333-6DAC-4CC7-A69D-612AFC620015}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{285E3333-6DAC-4CC7-A69D-612AFC620015}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{2A225EB6-DD37-441D-B6DB-DA4BDC36DA62} = {11821B44-F7E5-40AB-819A-2043B533272F}
 		{58EF98CC-BFEB-4A61-B4F3-012EE3B829BF} = {11821B44-F7E5-40AB-819A-2043B533272F}
 		{703D0B65-AF74-42A3-872D-80C98E728C51} = {11821B44-F7E5-40AB-819A-2043B533272F}
+		{285E3333-6DAC-4CC7-A69D-612AFC620015} = {99A60FD9-E773-449C-AEE4-2BF920E2DEF1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {51B071CE-6210-47AB-9823-05EBF8046CE4}

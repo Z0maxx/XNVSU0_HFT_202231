@@ -230,7 +230,7 @@ namespace XNVSU0_HFT_202231.Repository
                 new FixedWageOrder()
                 {
                     Id = 1,
-                    OrderDate = DateTime.Parse("2022.11.05"),
+                    OrderDate = DateTime.Parse("2022.11.05 8:00"),
                     EmployeeId = 1,
                     EventTypeId = 1,
                     FirstName = "Géza",
@@ -240,7 +240,7 @@ namespace XNVSU0_HFT_202231.Repository
                 new FixedWageOrder()
                 {
                     Id = 2,
-                    OrderDate = DateTime.Parse("2022.10.24"),
+                    OrderDate = DateTime.Parse("2022.10.24 9:00"),
                     EmployeeId = 2,
                     EventTypeId = 1,
                     FirstName = "Áron",
@@ -251,7 +251,7 @@ namespace XNVSU0_HFT_202231.Repository
                 new FixedWageOrder()
                 {
                     Id = 3,
-                    OrderDate = DateTime.Parse("2022.11.02"),
+                    OrderDate = DateTime.Parse("2022.11.02 10:00"),
                     EmployeeId = 1,
                     EventTypeId = 2,
                     FirstName = "Bence",
@@ -261,7 +261,7 @@ namespace XNVSU0_HFT_202231.Repository
                 new FixedWageOrder()
                 {
                     Id = 4,
-                    OrderDate = DateTime.Parse("2022.12.15"),
+                    OrderDate = DateTime.Parse("2022.12.15 11:00"),
                     EmployeeId = 5,
                     EventTypeId = 4,
                     FirstName = "Ilona",
@@ -272,7 +272,7 @@ namespace XNVSU0_HFT_202231.Repository
                 new FixedWageOrder()
                 {
                     Id = 5,
-                    OrderDate = DateTime.Parse("2022.11.16"),
+                    OrderDate = DateTime.Parse("2022.11.16 12:00"),
                     EmployeeId = 2,
                     EventTypeId = 3,
                     FirstName = "Helga",
@@ -285,7 +285,7 @@ namespace XNVSU0_HFT_202231.Repository
                 new HourlyWageOrder()
                 {
                     Id = 1,
-                    OrderDate = DateTime.Parse("2022.10.12"),
+                    OrderDate = DateTime.Parse("2022.10.12 8:00"),
                     EmployeeId = 1,
                     Hours = 3,
                     FirstName = "Aladár",
@@ -296,7 +296,7 @@ namespace XNVSU0_HFT_202231.Repository
                 new HourlyWageOrder()
                 {
                     Id = 2,
-                    OrderDate = DateTime.Parse("2022.12.07"),
+                    OrderDate = DateTime.Parse("2022.12.07 9:00"),
                     EmployeeId = 4,
                     Hours = 7,
                     FirstName = "Lőrinc",
@@ -306,7 +306,7 @@ namespace XNVSU0_HFT_202231.Repository
                 new HourlyWageOrder()
                 {
                     Id = 3,
-                    OrderDate = DateTime.Parse("2022.10.14"),
+                    OrderDate = DateTime.Parse("2022.10.14 10:00"),
                     EmployeeId = 1,
                     Hours = 6,
                     FirstName = "Tibor",
@@ -317,7 +317,7 @@ namespace XNVSU0_HFT_202231.Repository
                 new HourlyWageOrder()
                 {
                     Id = 4,
-                    OrderDate = DateTime.Parse("2022.10.14"),
+                    OrderDate = DateTime.Parse("2022.10.14 11:00"),
                     EmployeeId = 5,
                     Hours = 7.5,
                     FirstName = "Örs",
@@ -328,7 +328,7 @@ namespace XNVSU0_HFT_202231.Repository
                 new HourlyWageOrder()
                 {
                     Id = 5,
-                    OrderDate = DateTime.Parse("2022.10.14"),
+                    OrderDate = DateTime.Parse("2022.10.14 12:00"),
                     EmployeeId = 3,
                     Hours = 3,
                     FirstName = "Eszter",

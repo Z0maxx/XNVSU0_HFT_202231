@@ -16,13 +16,17 @@ namespace XNVSU0_HFT_202231.Logic
         }
         public override void Create(HourlyWageOrder item)
         {
+            if (item.OrderDate.Value.Day <= DateTime.Now.Day)
+            {
+                throw new ArgumentException($"{GetPropertyInfo(item, "OrderDate").GetDisplayName()} day must be at least today's date + 1 day");
+            }
             if (item.OrderDate.Value.Hour < 8 || item.OrderDate.Value.Hour > 22 || item.OrderDate.Value.Hour == 22 && item.OrderDate.Value.Minute > 0)
             {
-                throw new ArgumentException($"{item.OrderDate.GetDisplayName()} hours must be between 8 and 22");
+                throw new ArgumentException($"{GetPropertyInfo(item, "OrderDate").GetDisplayName()} hours must be between 8 and 22");
             }
             if (item.OrderDate.Value.Minute % 15 != 0)
             {
-                throw new ArgumentException($"{item.OrderDate.GetDisplayName()} minutes must be 0, 15, 30 or 45");
+                throw new ArgumentException($"{GetPropertyInfo(item, "OrderDate").GetDisplayName()} minutes must be 0, 15, 30 or 45");
             }
             var employee = employeeRepository.Read(item.EmployeeId);
             if (employee == null) throw new ArgumentException($"{typeof(HourlyWageEmployee).GetDisplayName()} by this Id not found: {item.EmployeeId}");
@@ -32,7 +36,7 @@ namespace XNVSU0_HFT_202231.Logic
             }
             if (item.Hours < employee.MinHours || item.Hours > employee.MaxHours)
             {
-                throw new ArgumentException($"{item.Hours.GetDisplayName()} must be between {employee.MinHours} and {employee.MaxHours} for {employee.FirstName} {employee.LastName}");
+                throw new ArgumentException($"{GetPropertyInfo(item, "Hours").GetDisplayName()} must be between {employee.MinHours} and {employee.MaxHours} for {employee.FirstName} {employee.LastName}");
             }
             base.Create(item);
         }
@@ -40,9 +44,9 @@ namespace XNVSU0_HFT_202231.Logic
         {
             if (item.OrderDate.Value.Hour < 8 || item.OrderDate.Value.Hour > 22 || item.OrderDate.Value.Hour == 22 && item.OrderDate.Value.Minute > 0)
             {
-                throw new ArgumentException($"{item.OrderDate.GetDisplayName()} hours must be between 8 and 22");
+                throw new ArgumentException($"{GetPropertyInfo(item, "OrderDate").GetDisplayName()} hours must be between 8 and 22");
             }
-            if (item.OrderDate.Value.Minute % 15 != 0) throw new ArgumentException($"{item.OrderDate.GetDisplayName()} minutes must be 0, 15, 30 or 45");
+            if (item.OrderDate.Value.Minute % 15 != 0) throw new ArgumentException($"{GetPropertyInfo(item, "OrderDate").GetDisplayName()} minutes must be 0, 15, 30 or 45");
             var employee = employeeRepository.Read(item.EmployeeId);
             if (employee == null) throw new ArgumentException($"{typeof(HourlyWageEmployee).GetDisplayName()} by this id not found: {item.EmployeeId}");
             if (repository.ReadAll().FirstOrDefault(o => o.EmployeeId == item.EmployeeId && o.OrderDate.Value.Date == item.OrderDate.Value.Date && o.Id != item.Id) != null)
@@ -51,7 +55,7 @@ namespace XNVSU0_HFT_202231.Logic
             }
             if (item.Hours < employee.MinHours || item.Hours > employee.MaxHours)
             {
-                throw new ArgumentException($"{item.Hours.GetDisplayName()} must be between {employee.MinHours} and {employee.MaxHours} for {employee.FirstName} {employee.LastName}");
+                throw new ArgumentException($"{GetPropertyInfo(item, "OrderDate").GetDisplayName()} must be between {employee.MinHours} and {employee.MaxHours} for {employee.FirstName} {employee.LastName}");
             }
             base.Update(item);
         }
