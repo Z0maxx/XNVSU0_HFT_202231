@@ -1,0 +1,84 @@
+﻿<Window x:Class="WpfClient.Windows.FixedWageOrderWindows.FWOListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfClient.Windows.FixedWageOrderWindows"
+        xmlns:user="clr-namespace:WpfClient.UserControls"
+        xmlns:viewmodels="clr-namespace:WpfClient.ViewModels.TableModelViewModels.FixedWageOrderViewModels"
+        xmlns:custom="clr-namespace:WpfClient.CustomControls"
+        mc:Ignorable="d"
+        Title="FixedWageOrderListViewModel" Height="450" Width="2000">
+    <Window.DataContext>
+        <viewmodels:FWOListViewModel/>
+    </Window.DataContext>
+    <custom:DefaultTopContainer>
+        <custom:DefaultTitle Content="{Binding ModelName}" ContentStringFormat="{}{0}s"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <DockPanel>
+                <custom:DefaultListHeader>
+                    <ListBoxItem>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="{Binding ColumnNames[0]}" Grid.Column="0"/>
+                            <Label Content="{Binding ColumnNames[1]}" Grid.Column="1"/>
+                            <Label Content="{Binding ColumnNames[2]}" Grid.Column="2"/>
+                            <Label Content="{Binding ColumnNames[3]}" Grid.Column="3"/>
+                            <Label Content="{Binding ColumnNames[4]}" Grid.Column="4"/>
+                            <Label Content="{Binding ColumnNames[5]}" Grid.Column="5"/>
+                            <Label Content="{Binding ColumnNames[6]}" Grid.Column="6"/>
+                            <Label Content="{Binding ColumnNames[7]}" Grid.Column="7"/>
+                            <Label Content="{Binding ColumnNames[8]}" Grid.Column="8"/>
+                        </Grid>
+                    </ListBoxItem>
+                </custom:DefaultListHeader>
+                <custom:DefaultList ItemsSource="{Binding List}" Grid.Column="0" HorizontalContentAlignment="Stretch" SelectedItem="{Binding SelectedItem}">
+                    <custom:DefaultList.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="250"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="{Binding Id}" Grid.Column="0"/>
+                                <Label Content="{Binding OrderDate}" ContentStringFormat="yyyy-MM-dd HH:mm" Grid.Column="1"/>
+                                <Label Content="{Binding FirstName}" Grid.Column="2"/>
+                                <Label Content="{Binding LastName}" Grid.Column="3"/>
+                                <Label Content="{Binding EventType.Name}" Grid.Column="4"/>
+                                <Label Content="{Binding EmailAddress}" Grid.Column="5"/>
+                                <Label Content="{Binding PhoneNumber}" Grid.Column="6"/>
+                                <Label Content="{Binding Employee.FirstName}" Grid.Column="7"/>
+                                <Label Content="{Binding Employee.LastName}" Grid.Column="8"/>
+                            </Grid>
+                        </DataTemplate>
+                    </custom:DefaultList.ItemTemplate>
+                </custom:DefaultList>
+            </DockPanel>
+            <user:ListWithSingleControls Grid.Column="1"/>
+        </Grid>
+    </custom:DefaultTopContainer>
+</Window>
