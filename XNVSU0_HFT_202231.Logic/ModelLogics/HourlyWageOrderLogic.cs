@@ -59,6 +59,8 @@ namespace XNVSU0_HFT_202231.Logic
             {
                 throw new ArgumentException($"{GetPropertyInfo(item, "OrderDate").GetDisplayName()} must be between {employee.MinHours} and {employee.MaxHours} for {employee.FirstName} {employee.LastName}");
             }
+            DateTime date = item.OrderDate.Value;
+            item.OrderDate = DateTime.Parse($"{date.Year}.{date.Month}.{date.Day} {date.Hour}:{date.Minute}");
             base.Update(item);
         }
         public IEnumerable<HourlyWageOrder> GetAllForCustomer(DateTime? orderDate, string firstName, string lastName, string emailAddress)
