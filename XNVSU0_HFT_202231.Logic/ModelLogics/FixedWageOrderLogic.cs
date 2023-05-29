@@ -35,6 +35,8 @@ namespace XNVSU0_HFT_202231.Logic
             {
                 throw new ArgumentException($"There is already an Order for {employee.FirstName} {employee.LastName} on {item.OrderDate.Value.ToShortDateString()}");
             }
+            DateTime date = item.OrderDate.Value;
+            item.OrderDate = DateTime.Parse($"{date.Year}.{date.Month}.{date.Day} {date.Hour}:{date.Minute}");
             base.Create(item);
         }
         public override void Update(FixedWageOrder item)

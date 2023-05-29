@@ -38,6 +38,8 @@ namespace XNVSU0_HFT_202231.Logic
             {
                 throw new ArgumentException($"{GetPropertyInfo(item, "Hours").GetDisplayName()} must be between {employee.MinHours} and {employee.MaxHours} for {employee.FirstName} {employee.LastName}");
             }
+            DateTime date = item.OrderDate.Value;
+            item.OrderDate = DateTime.Parse($"{date.Year}.{date.Month}.{date.Day} {date.Hour}:{date.Minute}");
             base.Create(item);
         }
         public override void Update(HourlyWageOrder item)
